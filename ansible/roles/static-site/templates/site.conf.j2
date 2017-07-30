@@ -1,0 +1,15 @@
+server {
+    server_name www.{{ static_site_domain }};
+    return 301 $scheme://{{ static_site_domain }}$request_uri;
+}
+
+server {
+    listen 80;
+    server_name {{ static_site_domain }};
+
+    location / {
+        root /var/www/{{ static_site_name }}/current;
+        index index.html;
+        try_files $uri $uri/ =404;
+    }
+}

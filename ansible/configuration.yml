@@ -10,5 +10,9 @@
     - yatesr.timezone
     - geerlingguy.nginx
     - server
-    - site-anwinged
-    - site-s2photo
+    - role: static-site
+      static_site_name: anwinged
+      static_site_domain: anwinged.ru
+    - role: static-site
+      static_site_name: s2photo
+      static_site_domain: s2photo.ru
