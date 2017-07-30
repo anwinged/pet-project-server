@@ -1,0 +1,15 @@
+---
+- name: Create nginx config
+  template:
+    src: site.conf.j2
+    dest: /etc/nginx/sites-enabled/anwinged.conf
+  notify: restart nginx
+
+- name: Create root folder
+  file:
+    path: /var/www/anwinged
+    state: directory
+    owner: deployer
+    group: www-data
+    recurse: yes
+  notify: restart nginx

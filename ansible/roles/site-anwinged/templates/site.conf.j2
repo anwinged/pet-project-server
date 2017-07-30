@@ -1,0 +1,15 @@
+server {
+    server_name www.anwinged.ru;
+    return 301 $scheme://anwinged.ru$request_uri;
+}
+
+server {
+    listen 80;
+    server_name anwinged.ru;
+
+    location / {
+        root /var/www/anwinged/current;
+        index index.html;
+        try_files $uri $uri/ =404;
+    }
+}

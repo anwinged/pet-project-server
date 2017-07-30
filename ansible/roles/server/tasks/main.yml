@@ -1,0 +1,16 @@
+---
+- name: Update apt cache
+  apt: update_cache=yes
+
+- name: Install system packages
+  apt: pkg={{ item }} state=latest
+  with_items:
+    - curl
+    - wget
+    - python-software-properties
+    - git
+
+- name: Add deploy user
+  user:
+    name: deployer
+    groups: www-data

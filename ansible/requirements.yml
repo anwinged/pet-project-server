@@ -1,0 +1,6 @@
+---
+- src: yatesr.timezone
+  version: 1.0.0
+
+- src: geerlingguy.nginx
+  version: 1.9.6

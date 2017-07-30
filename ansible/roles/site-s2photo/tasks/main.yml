@@ -1,0 +1,14 @@
+---
+- name: Create nginx config
+  template:
+    src: site.conf.j2
+    dest: /etc/nginx/sites-enabled/s2photo.conf
+  notify: restart nginx
+
+- name: Create root folder
+  file:
+    path: /var/www/s2photo
+    state: directory
+    owner: deployer
+    group: deployer
+    mode: u=rw,g=r,o=r

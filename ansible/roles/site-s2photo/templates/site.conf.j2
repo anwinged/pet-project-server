@@ -1,0 +1,10 @@
+server {
+    listen 80;
+    server_name s2photo.ru www.s2photo.ru;
+
+    location / {
+        root /var/www/s2photo/current;
+        index index.html;
+        try_files $uri $uri/ =404;
+    }
+}
