@@ -13,3 +13,7 @@
 
 - src: geerlingguy.mysql
   version: 2.8.0
+
+- name: thefinn93.ansible-letsencrypt
+  src: https://github.com/thefinn93/ansible-letsencrypt
+  version: origin/master

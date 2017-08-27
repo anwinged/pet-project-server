@@ -29,9 +29,6 @@
     # nginx settings
 
     nginx_remove_default_vhost: true
-    nginx_vhosts:
-      - server_name: notes.anwinged.ru
-        template: "{{ playbook_dir }}/templates/notes.vhost.j2"
 
     # php settings
 
@@ -49,7 +46,7 @@
     php_webserver_daemon: nginx
     php_enable_php_fpm: true
     php_date_timezone: "{{ timezone }}"
-    php_fpm_listen: /run/php/php{{ php_version }}-fpm.sock
+    php_fpm_listen: /var/run/php{{ php_version }}-fpm.sock
 
     # mysql settings
 
@@ -60,6 +57,11 @@
         host: '127.0.0.1'
         password: "{{ apps.notes.dbpassword }}"
         priv: "{{ apps.notes.dbname }}.*:ALL"
+
+    letsencrypt_webroot_path: /var/www/letsencrypt
+    letsencrypt_email: anwinged@ya.ru
+    letsencrypt_cert_domains:
+      - notes.anwinged.ru
 
   pre_tasks:
     - name: Ensure that PHP PPA is added.
@@ -99,13 +101,43 @@
       static_site_name: s2photo
       static_site_domain: s2photo.ru
 
-  post_tasks:
+  tasks:
     - name: Create system environment variables.
       lineinfile:
-        path: /etc/environment
+        dest: /etc/environment
         regexp: '^{{ item.key }}='
         line: '{{ item.key }}="{{ item.value }}"'
       with_dict: "{{ app_envs }}"
+
+    - name: Generate dhparams.
+      shell: openssl dhparam -out /etc/nginx/dhparams.pem 2048
+      args:
+        creates: /etc/nginx/dhparams.pem
+
+    - name: Create letsencrypt directory.
+      file:
+        name: /var/www/letsencrypt
+        state: directory
+
+    - name: Copy notes acme server config.
+      template:
+        src: notes-acme.vhost.j2
+        dest: "/etc/nginx/sites-enabled/notes-acme.conf"
+      notify: restart nginx
+
+    - name: Restart nginx.
+      service: name=nginx state=restarted
+
+    - name: Configure Lest Encrypt certificate.
+      include_role:
+        name: thefinn93.ansible-letsencrypt
+
+    - name: Copy notes server config.
+      template:
+        src: notes.vhost.j2
+        dest: "/etc/nginx/sites-enabled/notes.conf"
+      notify: restart nginx
+
     - name: 'Create folder for {{ apps.notes.name }}.'
       file:
         path: "{{ apps.notes.www }}"
