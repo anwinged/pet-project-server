@@ -22,6 +22,10 @@
       NOTES_DATABASE_NAME: "{{ apps.notes.dbname }}"
       NOTES_DATABASE_USER: "{{ apps.notes.dbuser }}"
       NOTES_DATABASE_PASSWORD: "{{ apps.notes.dbpassword }}"
+      NOTES_MAILER_HOST: smtp.timeweb.ru
+      NOTES_MAILER_PORT: 25
+      NOTES_MAILER_USER: noreply@anwinged.ru
+      NOTES_MAILER_PASSWORD: C5DkD5gs
       SYMFONY_ENV: prod
 
     timezone: UTC
