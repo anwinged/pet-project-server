@@ -30,4 +30,3 @@
     letsencrypt_renewal_command_args: '--renew-hook "systemctl restart nginx"'
     ssl_certificate: '{{ cert_certificate }}'
     ssl_certificate_key: '{{ cert_key }}'
-  when: False
