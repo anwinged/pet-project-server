@@ -13,20 +13,6 @@
         dbname: notes_db
         dbuser: notes_user
         dbpassword: Sf6tp6LKeCyrjVZ2YGKYUd
-        www: '/var/www/notes'
-
-    app_envs:
-      NOTES_SECRET_TOKEN: qJqFNP5B9RP2EfqgpTPyZe
-      NOTES_DATABASE_HOST: 127.0.0.1
-      NOTES_DATABASE_PORT: 3306
-      NOTES_DATABASE_NAME: "{{ apps.notes.dbname }}"
-      NOTES_DATABASE_USER: "{{ apps.notes.dbuser }}"
-      NOTES_DATABASE_PASSWORD: "{{ apps.notes.dbpassword }}"
-      NOTES_MAILER_HOST: smtp.timeweb.ru
-      NOTES_MAILER_PORT: 25
-      NOTES_MAILER_USER: noreply@anwinged.ru
-      NOTES_MAILER_PASSWORD: C5DkD5gs
-      SYMFONY_ENV: prod
 
     timezone: UTC
 
@@ -36,7 +22,7 @@
 
     # php settings
 
-    php_version: "7.1"
+    php_version: '7.1'
     php_packages:
       - php7.1
       - php7.1-curl
@@ -49,23 +35,17 @@
       - php7.1-mysql
     php_webserver_daemon: nginx
     php_enable_php_fpm: true
-    php_date_timezone: "{{ timezone }}"
-    php_fpm_listen: /var/run/php{{ php_version }}-fpm.sock
+    php_date_timezone: '{{ timezone }}'
 
     # mysql settings
 
     mysql_databases:
-      - name: "{{ apps.notes.dbname }}"
+      - name: '{{ apps.notes.dbname }}'
     mysql_users:
-      - name: "{{ apps.notes.dbuser }}"
+      - name: '{{ apps.notes.dbuser }}'
         host: '127.0.0.1'
-        password: "{{ apps.notes.dbpassword }}"
-        priv: "{{ apps.notes.dbname }}.*:ALL"
-
-    letsencrypt_webroot_path: /var/www/letsencrypt
-    letsencrypt_email: anwinged@ya.ru
-    letsencrypt_cert_domains:
-      - notes.anwinged.ru
+        password: '{{ apps.notes.dbpassword }}'
+        priv: '{{ apps.notes.dbname }}.*:ALL'
 
   pre_tasks:
     - name: Ensure that PHP PPA is added.
@@ -83,14 +63,8 @@
         - zip
     - name: Add deploy user
       user:
-        name: "{{ deploy_user }}"
+        name: '{{ deploy_user }}'
         groups: www-data
-    - name: "Set authorized key took from file for {{ deploy_user }}"
-      authorized_key:
-        user: "{{ deploy_user }}"
-        state: present
-        key: "{{ lookup('file', 'id_rsa.pub') }}"
-      when: from_vagrant
 
   roles:
     - yatesr.timezone
@@ -98,55 +72,32 @@
     - geerlingguy.php-versions
     - geerlingguy.php
     - geerlingguy.mysql
+
     - role: static-site
       static_site_name: anwinged
       static_site_domain: anwinged.ru
+
     - role: static-site
       static_site_name: s2photo
       static_site_domain: s2photo.ru
 
-  tasks:
-    - name: Create system environment variables.
-      lineinfile:
-        dest: /etc/environment
-        regexp: '^{{ item.key }}='
-        line: '{{ item.key }}="{{ item.value }}"'
-      with_dict: "{{ app_envs }}"
-
-    - name: Generate dhparams.
-      shell: openssl dhparam -out /etc/nginx/dhparams.pem 2048
-      args:
-        creates: /etc/nginx/dhparams.pem
-
-    - name: Create letsencrypt directory.
-      file:
-        name: /var/www/letsencrypt
-        state: directory
-
-    - name: Copy notes acme server config.
-      template:
-        src: notes-acme.vhost.j2
-        dest: "/etc/nginx/sites-enabled/notes-acme.conf"
-      notify: restart nginx
-
-    - name: Restart nginx.
-      service: name=nginx state=restarted
-
-    - name: Configure Lest Encrypt certificate.
-      include_role:
-        name: thefinn93.ansible-letsencrypt
-
-    - name: Copy notes server config.
-      template:
-        src: notes.vhost.j2
-        dest: "/etc/nginx/sites-enabled/notes.conf"
-      notify: restart nginx
-
-    - name: 'Create folder for {{ apps.notes.name }}.'
-      file:
-        path: "{{ apps.notes.www }}"
-        state: directory
-        owner: "{{ deploy_user }}"
-        group: www-data
-        recurse: yes
-      notify: restart nginx
+    - role: symfony-app
+      app_name: notes
+      app_user: notes_owner
+      app_user_ssh_keys: ['{{ lookup("file", "av_id_rsa.pub") }}']
+      app_domains: ['notes.anwinged.ru']
+      app_cert: yes
+      app_cert_type: 'letsencrypt'
+      app_cert_email: anwinged@ya.ru
+      app_envs:
+        NOTES_SECRET_TOKEN: qJqFNP5B9RP2EfqgpTPyZe
+        NOTES_DATABASE_HOST: 127.0.0.1
+        NOTES_DATABASE_PORT: 3306
+        NOTES_DATABASE_NAME: '{{ apps.notes.dbname }}'
+        NOTES_DATABASE_USER: '{{ apps.notes.dbuser }}'
+        NOTES_DATABASE_PASSWORD: '{{ apps.notes.dbpassword }}'
+        NOTES_MAILER_HOST: smtp.timeweb.ru
+        NOTES_MAILER_PORT: 25
+        NOTES_MAILER_USER: noreply@anwinged.ru
+        NOTES_MAILER_PASSWORD: C5DkD5gs
+        SYMFONY_ENV: prod

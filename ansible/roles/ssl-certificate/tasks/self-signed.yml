@@ -1,0 +1,33 @@
+---
+- name: Check certificate params.
+  fail:
+    msg: You must setup certificate file params.
+  when: not cert_certificate or not cert_key
+
+- name: Generate self signed ssl key.
+  shell: |
+    openssl genrsa \
+      -aes256 \
+      -passout pass:client11 \
+      -out {{ cert_directory }}/ssl.pass.key \
+      1024
+
+    openssl rsa \
+      -passin pass:client11 \
+      -in {{ cert_directory }}/ssl.pass.key \
+      -out {{ cert_key }}
+
+    openssl req \
+      -new \
+      -key {{ cert_key }} \
+      -out {{ cert_request }} \
+      -subj "/CN=localhost"
+
+    openssl x509 \
+      -req \
+      -days 365 \
+      -in {{ cert_request }} \
+      -signkey {{ cert_key }} \
+      -out {{ cert_certificate }}
+  args:
+    creates: '{{ cert_certificate }}'

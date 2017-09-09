@@ -1,0 +1,24 @@
+---
+# Required, allowed: self-signed, letsencrypt
+cert_type: 'self-signed'
+
+# Required, name for ssl-certificate configuration
+cert_name: ''
+
+# Required: domain owner email
+cert_email: ''
+
+# Required: domains for lets encrypt certificate creation
+cert_domains: []
+
+# Parameters to store generated keys
+cert_directory: '/opt/ssl-certificates/{{ cert_name }}'
+cert_key: '{{ cert_directory }}/ssl.key'
+cert_request: '{{ cert_directory }}/ssl.csr'
+cert_certificate: '{{ cert_directory }}/ssl.crt'
+
+# DH parameters
+cert_dhparam: '/etc/nginx/dhparam.pem'
+cert_dhparam_n: 2048
+
+cert_le_webroot_path: /var/www/letsencrypt

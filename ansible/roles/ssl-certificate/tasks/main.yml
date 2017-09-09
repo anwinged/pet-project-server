@@ -1,0 +1,16 @@
+---
+- name: Ensure certificate storage exists.
+  file:
+    path: '{{ cert_directory }}'
+    state: directory
+
+- include: self-signed.yml
+  when: cert_type == 'self-signed'
+
+- include: letsencrypt.yml
+  when: cert_type == 'letsencrypt'
+
+- name: Generate dhparams.
+  shell: 'openssl dhparam -out {{ cert_dhparam }} {{ cert_dhparam_n }}'
+  args:
+    creates: '{{ cert_dhparam }}'

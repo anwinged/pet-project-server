@@ -3,3 +3,10 @@ configure:
 
 install-roles:
 	ansible-galaxy install -r "ansible/requirements.yml"
+
+test-rebuild:
+	vagrant destroy -f && vagrant up
+
+lint-configuration:
+	ansible-lint "./ansible/configuration.yml" --exclude="./ansible/galaxy.roles/" -v || true
+	ansible-lint "./ansible/roles/ssl-certificate/tasks/main.yml" -v || true
