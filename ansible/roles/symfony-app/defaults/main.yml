@@ -22,7 +22,7 @@ app_envs: {}
 app_directory: '/var/www/{{ app_name }}'
 app_domains: ['{{ app_name }}.loc']
 app_web_root: '/var/www/{{ app_name }}/current/web'
-app_web_listen: 'unix:/var/run/php-fpm-{{ app_name }}.sock'
+app_php_connection: '127.0.0.1:9001'
 
 
 # СЕРТИФИКАТ
@@ -36,5 +36,5 @@ app_cert_email: 'name@example.com'
 
 app_php_version: '{{ php_version | default("7.0") }}'
 app_fpool_name: '{{ app_name }}'
-app_fpool_listen: '/var/run/php-fpm-{{ app_name }}.sock'
+app_fpool_listen: '{{ app_php_connection }}'
 app_fpool_slowlog: '/var/www/{{ app_name }}/shared/logs/'

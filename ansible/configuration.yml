@@ -3,16 +3,14 @@
   become: true
 
   vars:
-
-    from_vagrant: no
     deploy_user: deployer
 
-    apps:
-      notes:
-        name: notes
-        dbname: notes_db
-        dbuser: notes_user
-        dbpassword: Sf6tp6LKeCyrjVZ2YGKYUd
+    # Configuration for "Notes" application
+    notes_domain: 'notes.anwinged.ru'
+    notes_cert_type: 'letsencrypt'
+    notes_dbname: notes_db
+    notes_dbuser: notes_db
+    notes_dbpassword: Sf6tp6LKeCyrjVZ2YGKYUd
 
     timezone: UTC
 
@@ -40,18 +38,18 @@
     # mysql settings
 
     mysql_databases:
-      - name: '{{ apps.notes.dbname }}'
+      - name: '{{ notes_dbname }}'
     mysql_users:
-      - name: '{{ apps.notes.dbuser }}'
+      - name: '{{ notes_dbuser }}'
         host: '127.0.0.1'
-        password: '{{ apps.notes.dbpassword }}'
-        priv: '{{ apps.notes.dbname }}.*:ALL'
+        password: '{{ notes_dbpassword }}'
+        priv: '{{ notes_dbname }}.*:ALL'
 
   pre_tasks:
     - name: Ensure that PHP PPA is added.
       apt_repository: repo=ppa:ondrej/php state=present
     - name: Update apt cache
-      apt: update_cache=yes
+      apt: update_cache=yes cache_valid_time=86400
     - name: Install system packages
       apt: pkg={{ item }} state=latest
       with_items:
@@ -85,19 +83,24 @@
       app_name: notes
       app_user: notes_owner
       app_user_ssh_keys: ['{{ lookup("file", "av_id_rsa.pub") }}']
-      app_domains: ['notes.anwinged.ru']
+      app_domains: ['{{ notes_domain }}']
       app_cert: yes
-      app_cert_type: 'letsencrypt'
+      app_cert_type: '{{ notes_cert_type }}'
       app_cert_email: anwinged@ya.ru
+      app_php_connection: '127.0.0.1:9010'
       app_envs:
         NOTES_SECRET_TOKEN: qJqFNP5B9RP2EfqgpTPyZe
         NOTES_DATABASE_HOST: 127.0.0.1
         NOTES_DATABASE_PORT: 3306
-        NOTES_DATABASE_NAME: '{{ apps.notes.dbname }}'
-        NOTES_DATABASE_USER: '{{ apps.notes.dbuser }}'
-        NOTES_DATABASE_PASSWORD: '{{ apps.notes.dbpassword }}'
+        NOTES_DATABASE_NAME: '{{ notes_dbname }}'
+        NOTES_DATABASE_USER: '{{ notes_dbuser }}'
+        NOTES_DATABASE_PASSWORD: '{{ notes_dbpassword }}'
         NOTES_MAILER_HOST: smtp.timeweb.ru
         NOTES_MAILER_PORT: 25
         NOTES_MAILER_USER: noreply@anwinged.ru
         NOTES_MAILER_PASSWORD: C5DkD5gs
         SYMFONY_ENV: prod
+
+  tasks:
+    - name: Fix php-mysql-package
+      apt: pkg=php7.1-mysql state=latest

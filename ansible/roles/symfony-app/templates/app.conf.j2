@@ -19,7 +19,7 @@ server {
     }
 
     location ~ ^/app\.php(/|$) {
-        fastcgi_pass {{ app_web_listen }};
+        fastcgi_pass {{ app_php_connection }};
         fastcgi_split_path_info ^(.+\.php)(/.*)$;
         include fastcgi_params;
 
