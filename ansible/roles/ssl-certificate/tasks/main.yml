@@ -14,3 +14,9 @@
   shell: 'openssl dhparam -out {{ cert_dhparam }} {{ cert_dhparam_n }}'
   args:
     creates: '{{ cert_dhparam }}'
+
+- name: Set facts about generated files.
+  set_fact:
+    '{{ cert_name }}_ssl_key': '{{ cert_key }}'
+    '{{ cert_name }}_ssl_certificate': '{{ cert_certificate }}'
+    '{{ cert_name }}_ssl_dhparam': '{{ cert_dhparam }}'

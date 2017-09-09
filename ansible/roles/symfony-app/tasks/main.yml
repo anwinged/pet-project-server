@@ -39,10 +39,6 @@
     cert_name: '{{ app_name }}'
     cert_email: '{{ app_cert_email }}'
     cert_domains: '{{ app_domains }}'
-    cert_directory: '{{ app_cert_directory }}'
-    cert_key: '{{ app_cert_key }}'
-    cert_certificate: '{{ app_cert_certificate }}'
-    cert_dhparam: '{{ app_dhparam_file }}'
   when: app_cert
 
 - name: 'Create web directory for {{ app_name }}.'

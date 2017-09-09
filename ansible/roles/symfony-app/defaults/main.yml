@@ -29,11 +29,7 @@ app_web_listen: 'unix:/var/run/php-fpm-{{ app_name }}.sock'
 
 app_cert: no
 app_cert_type: 'self-signed'
-app_cert_email: ''
-app_cert_directory: '/opt/ssl-certificates/{{ app_name }}'
-app_cert_certificate: '/opt/ssl-certificates/{{ app_name }}/ssl.crt'
-app_cert_key: '/opt/ssl-certificates/{{ app_name }}/ssl.key'
-app_dhparam_file: '/opt/ssl-certificates/{{ app_name }}/dhparam.pem'
+app_cert_email: 'name@example.com'
 
 
 # PHP-FPM
