@@ -23,11 +23,11 @@
     state: present
   with_items: '{{ app_user_ssh_keys }}'
 
-- name: 'Set up system environment variables for {{ app_name }}.'
+- name: 'Set up environment variables for {{ app_name }}.'
   lineinfile:
-    dest: /etc/environment
+    dest: '/home/{{ app_user }}/.bashrc'
     regexp: '^{{ item.key }}='
-    line: '{{ item.key }}="{{ item.value }}"'
+    line: 'export {{ item.key }}="{{ item.value }}"'
   with_dict: '{{ app_envs }}'
 
 - name: 'Create ssl certificate for {{ app_name }}.'
