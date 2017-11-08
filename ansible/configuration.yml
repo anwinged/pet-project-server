@@ -99,6 +99,7 @@
         NOTES_MAILER_PORT: 25
         NOTES_MAILER_USER: noreply@anwinged.ru
         NOTES_MAILER_PASSWORD: C5DkD5gs
+        NOTES_DROPBOX_TOKEN: jHFhAiEB1nAAAAAAAAAGjWXDoNrVLDWHo4aFZFoNtb-qV7Q5qsNjlMdKU-Y95lMw
         SYMFONY_ENV: prod
 
   tasks:
