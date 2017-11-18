@@ -1,0 +1,15 @@
+---
+dependencies:
+  - role: ssl-certificate
+    cert_type: letsencrypt
+    cert_name: '{{ homepage_name }}'
+    cert_email: anwinged@ya.ru
+    cert_domains:
+      - '{{ homepage_domain }}'
+      - 'www.{{ homepage_domain }}'
+
+  - role: static-site
+    static_site_name: '{{ homepage_name }}'
+    static_site_domain: '{{ homepage_domain }}'
+    static_site_dir: '{{ homepage_dir }}'
+    static_site_template: homepage.conf.j2

@@ -71,9 +71,7 @@
     - geerlingguy.php
     - geerlingguy.mysql
 
-    - role: static-site
-      static_site_name: anwinged
-      static_site_domain: anwinged.ru
+    - role: homepage
 
     - role: static-site
       static_site_name: s2photo

@@ -1,0 +1,5 @@
+---
+static_site_name: ''
+static_site_dir: '/var/www/{{ static_site_name }}'
+static_site_web_root: '{{ static_site_dir }}/current'
+static_site_template: site.conf.j2

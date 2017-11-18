@@ -8,7 +8,7 @@ server {
     server_name {{ static_site_domain }};
 
     location / {
-        root /var/www/{{ static_site_name }}/current;
+        root {{ static_site_web_root }};
         index index.html;
         try_files $uri $uri/ =404;
     }
