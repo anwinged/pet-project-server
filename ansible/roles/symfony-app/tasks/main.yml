@@ -26,7 +26,7 @@
 - name: 'Set up environment variables for {{ app_name }}.'
   lineinfile:
     dest: '/home/{{ app_user }}/.bashrc'
-    regexp: '^{{ item.key }}='
+    regexp: '^export {{ item.key }}='
     line: 'export {{ item.key }}="{{ item.value }}"'
   with_dict: '{{ app_envs }}'
 
