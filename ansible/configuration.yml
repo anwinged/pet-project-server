@@ -72,10 +72,7 @@
     - geerlingguy.mysql
 
     - role: homepage
-
-    - role: static-site
-      static_site_name: s2photo
-      static_site_domain: s2photo.ru
+    - role: s2photo
 
     - role: symfony-app
       app_name: notes
