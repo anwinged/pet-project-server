@@ -1,0 +1,27 @@
+---
+notes_name: notes
+notes_owner: notes_owner
+notes_dir: /var/www/notes
+notes_web_root: '{{ notes_dir }}/current/app'
+notes_domain: 'notes.anwinged.ru'
+notes_cert_type: 'letsencrypt'
+notes_dbname: notes_db
+notes_dbuser: notes_db
+notes_dbpassword: Sf6tp6LKeCyrjVZ2YGKYUd
+notes_php_connection: '127.0.0.1:9010'
+
+notes_env:
+  NOTES_DEPLOY_DIR: '{{ notes_dir }}'
+  NOTES_WORK_DIR: '{{ notes_dir }}/current'
+  NOTES_SECRET_TOKEN: qJqFNP5B9RP2EfqgpTPyZe
+  NOTES_DATABASE_HOST: 127.0.0.1
+  NOTES_DATABASE_PORT: 3306
+  NOTES_DATABASE_NAME: '{{ notes_dbname }}'
+  NOTES_DATABASE_USER: '{{ notes_dbuser }}'
+  NOTES_DATABASE_PASSWORD: '{{ notes_dbpassword }}'
+  NOTES_MAILER_HOST: smtp.timeweb.ru
+  NOTES_MAILER_PORT: 25
+  NOTES_MAILER_USER: noreply@anwinged.ru
+  NOTES_MAILER_PASSWORD: C5DkD5gs
+  NOTES_DROPBOX_TOKEN: jHFhAiEB1nAAAAAAAAAGjWXDoNrVLDWHo4aFZFoNtb-qV7Q5qsNjlMdKU-Y95lMw
+  SYMFONY_ENV: prod

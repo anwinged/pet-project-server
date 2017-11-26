@@ -5,13 +5,6 @@
   vars:
     deploy_user: deployer
 
-    # Configuration for "Notes" application
-    notes_domain: 'notes.anwinged.ru'
-    notes_cert_type: 'letsencrypt'
-    notes_dbname: notes_db
-    notes_dbuser: notes_db
-    notes_dbpassword: Sf6tp6LKeCyrjVZ2YGKYUd
-
     timezone: UTC
 
     # nginx settings
@@ -34,16 +27,6 @@
     php_webserver_daemon: nginx
     php_enable_php_fpm: true
     php_date_timezone: '{{ timezone }}'
-
-    # mysql settings
-
-    mysql_databases:
-      - name: '{{ notes_dbname }}'
-    mysql_users:
-      - name: '{{ notes_dbuser }}'
-        host: '127.0.0.1'
-        password: '{{ notes_dbpassword }}'
-        priv: '{{ notes_dbname }}.*:ALL'
 
   pre_tasks:
     - name: Ensure that PHP PPA is added.
@@ -69,33 +52,10 @@
     - geerlingguy.nginx
     - geerlingguy.php-versions
     - geerlingguy.php
-    - geerlingguy.mysql
 
-    - role: homepage
-    - role: s2photo
-
-    - role: symfony-app
-      app_name: notes
-      app_user: notes_owner
-      app_user_ssh_keys: ['{{ lookup("file", "av_id_rsa.pub") }}']
-      app_domains: ['{{ notes_domain }}']
-      app_cert: yes
-      app_cert_type: '{{ notes_cert_type }}'
-      app_cert_email: anwinged@ya.ru
-      app_php_connection: '127.0.0.1:9010'
-      app_envs:
-        NOTES_SECRET_TOKEN: qJqFNP5B9RP2EfqgpTPyZe
-        NOTES_DATABASE_HOST: 127.0.0.1
-        NOTES_DATABASE_PORT: 3306
-        NOTES_DATABASE_NAME: '{{ notes_dbname }}'
-        NOTES_DATABASE_USER: '{{ notes_dbuser }}'
-        NOTES_DATABASE_PASSWORD: '{{ notes_dbpassword }}'
-        NOTES_MAILER_HOST: smtp.timeweb.ru
-        NOTES_MAILER_PORT: 25
-        NOTES_MAILER_USER: noreply@anwinged.ru
-        NOTES_MAILER_PASSWORD: C5DkD5gs
-        NOTES_DROPBOX_TOKEN: jHFhAiEB1nAAAAAAAAAGjWXDoNrVLDWHo4aFZFoNtb-qV7Q5qsNjlMdKU-Y95lMw
-        SYMFONY_ENV: prod
+    - homepage
+    - s2photo
+    - notes
 
   tasks:
     - name: Fix php-mysql-package

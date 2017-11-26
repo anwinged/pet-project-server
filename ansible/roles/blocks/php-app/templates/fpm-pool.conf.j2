@@ -1,11 +1,11 @@
-[{{ app_fpool_name }}]
+[{{ php_app_fpm_pool_name }}]
 
-listen = {{ app_fpool_listen }}
+listen = {{ php_app_fpm_listen }}
 listen.allowed_clients = 127.0.0.1
 listen.backlog = -1
 
-user = {{ app_user }}
-group = {{ app_group }}
+user = {{ php_app_user }}
+group = {{ php_app_group }}
 
 ; request_slowlog_timeout = 5s
 ; slowlog = /var/log/php-fpm/slowlog-blog.log
@@ -23,6 +23,6 @@ rlimit_files = 131072
 rlimit_core = unlimited
 catch_workers_output = yes
 
-{% for name, value in app_envs.iteritems() %}
+{% for name, value in php_app_envs.iteritems() %}
 env[{{ name }}]={{ value }}
 {% endfor %}

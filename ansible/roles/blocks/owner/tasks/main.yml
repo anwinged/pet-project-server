@@ -1,0 +1,30 @@
+---
+- name: 'Check app requirements for {{ owner_name }}.'
+  fail:
+    msg: You must set owner name.
+  when: not owner_name
+
+- name: 'Create group "{{ owner_group }}".'
+  group:
+    name: '{{ owner_group }}'
+    state: present
+
+- name: 'Create user "{{ owner_name }}".'
+  user:
+    name: '{{ owner_name }}'
+    group: '{{ owner_group }}'
+    shell: /bin/bash
+
+- name: 'Set up user ssh keys for {{ owner_name }}.'
+  authorized_key:
+    user: '{{ owner_name }}'
+    key: '{{ item }}'
+    state: present
+  with_items: '{{ owner_ssh_keys }}'
+
+- name: 'Set up environment variables for {{ owner_name }}.'
+  lineinfile:
+    dest: '/home/{{ owner_name }}/.bashrc'
+    regexp: '^export {{ item.key }}='
+    line: 'export {{ item.key }}="{{ item.value }}"'
+  with_dict: '{{ owner_envs }}'
