@@ -23,8 +23,19 @@
   with_items: '{{ owner_ssh_keys }}'
 
 - name: 'Set up environment variables for {{ owner_name }}.'
+  template:
+    src: envs.j2
+    dest: '/home/{{ owner_name }}/.envs'
+
+- name: 'Remove environment variables for {{ owner_name }} from bashrc.'
   lineinfile:
-    dest: '/home/{{ owner_name }}/.bashrc'
+    path: '/home/{{ owner_name }}/.bashrc'
     regexp: '^export {{ item.key }}='
-    line: 'export {{ item.key }}="{{ item.value }}"'
+    state: absent
   with_dict: '{{ owner_envs }}'
+
+- name: 'Include environment variables for {{ owner_name }} in bashrc.'
+  lineinfile:
+    path: '/home/{{ owner_name }}/.bashrc'
+    regexp: '^\. ~\/\.envs'
+    line: '. ~/.envs'
