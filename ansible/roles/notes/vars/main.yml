@@ -13,6 +13,7 @@ notes_php_connection: '127.0.0.1:9010'
 notes_env:
   NOTES_DEPLOY_DIR: '{{ notes_dir }}'
   NOTES_WORK_DIR: '{{ notes_dir }}/current'
+  NOTES_APP_PASSWORD: fiat282lux647
   NOTES_SECRET_TOKEN: qJqFNP5B9RP2EfqgpTPyZe
   NOTES_DATABASE_HOST: 127.0.0.1
   NOTES_DATABASE_PORT: 3306
