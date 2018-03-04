@@ -3,11 +3,16 @@ dependencies:
   - role: geerlingguy.mysql
     mysql_databases:
       - name: '{{ notes_dbname }}'
+      - name: '{{ notes_search_dbname }}'
     mysql_users:
       - name: '{{ notes_dbuser }}'
         host: 127.0.0.1
         password: '{{ notes_dbpassword }}'
         priv: '{{ notes_dbname }}.*:ALL'
+      - name: '{{ notes_search_dbuser }}'
+        host: 127.0.0.1
+        password: '{{ notes_search_dbpassword }}'
+        priv: '{{ notes_search_dbname }}.*:ALL'
 
   - role: blocks/owner
     owner_name: '{{ notes_owner }}'

@@ -8,6 +8,9 @@ notes_cert_type: 'letsencrypt'
 notes_dbname: notes_db
 notes_dbuser: notes_db
 notes_dbpassword: Sf6tp6LKeCyrjVZ2YGKYUd
+notes_search_dbname: notes_search_db
+notes_search_dbuser: notes_search_db
+notes_search_dbpassword: 9k7cwKyWFGSSnEDn
 notes_php_connection: '127.0.0.1:9010'
 
 notes_env:
@@ -20,6 +23,11 @@ notes_env:
   NOTES_DATABASE_NAME: '{{ notes_dbname }}'
   NOTES_DATABASE_USER: '{{ notes_dbuser }}'
   NOTES_DATABASE_PASSWORD: '{{ notes_dbpassword }}'
+  NOTES_DATABASE_SEARCH_HOST: 127.0.0.1
+  NOTES_DATABASE_SEARCH_PORT: 3306
+  NOTES_DATABASE_SEARCH_NAME: '{{ notes_search_dbname }}'
+  NOTES_DATABASE_SEARCH_USER: '{{ notes_search_dbuser }}'
+  NOTES_DATABASE_SEARCH_PASSWORD: '{{ notes_search_dbpassword }}'
   NOTES_MAILER_HOST: smtp.timeweb.ru
   NOTES_MAILER_PORT: 25
   NOTES_MAILER_USER: noreply@anwinged.ru
