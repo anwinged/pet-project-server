@@ -14,16 +14,16 @@
     # php settings
 
     php_version: '7.1'
-    php_packages:
-      - php7.1
-      - php7.1-curl
-      - php7.1-gd
-      - php7.1-fpm
-      - php7.1-mbstring
-      - php7.1-xml
-      - php7.1-intl
-      - php7.1-zip
-      - php7.1-mysql
+    php_packages_extra:
+      - 'php{{ php_version }}'
+      - 'php{{ php_version }}-curl'
+      - 'php{{ php_version }}-gd'
+      - 'php{{ php_version }}-fpm'
+      - 'php{{ php_version }}-mbstring'
+      - 'php{{ php_version }}-xml'
+      - 'php{{ php_version }}-intl'
+      - 'php{{ php_version }}-zip'
+      - 'php{{ php_version }}-mysql'
     php_webserver_daemon: nginx
     php_enable_php_fpm: true
     php_date_timezone: '{{ timezone }}'
@@ -56,7 +56,3 @@
     - homepage
     - s2photo
     - notes
-
-  tasks:
-    - name: Fix php-mysql-package
-      apt: pkg=php7.1-mysql state=latest
