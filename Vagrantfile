@@ -18,6 +18,7 @@ Vagrant.configure("2") do |config|
     ansible.galaxy_roles_path = "ansible/galaxy.roles"
     ansible.sudo = true
     ansible.extra_vars = {
+      cert_type: "self-signed",
       deploy_user: "deployer_test",
       notes_domain: 'notes.loc',
       notes_cert_type: 'self-signed',
