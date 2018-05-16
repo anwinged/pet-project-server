@@ -3,7 +3,7 @@ notes_name: notes
 notes_owner: notes_owner
 notes_dir: /var/www/notes
 notes_web_root: '{{ notes_dir }}/current/web'
-notes_domain: 'notes.anwinged.ru'
+notes_domain: 'notes.vakhrushev.me'
 notes_cert_type: 'letsencrypt'
 notes_dbname: notes_db
 notes_dbuser: notes_db

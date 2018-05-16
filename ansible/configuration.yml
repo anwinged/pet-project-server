@@ -29,10 +29,6 @@
     php_date_timezone: '{{ timezone }}'
 
   pre_tasks:
-    - name: Ensure that PHP PPA is added.
-      apt_repository: repo=ppa:ondrej/php state=present
-    - name: Update apt cache
-      apt: update_cache=yes cache_valid_time=86400
     - name: Install system packages
       apt: pkg={{ item }} state=latest
       with_items:
@@ -42,6 +38,10 @@
         - python-software-properties
         - wget
         - zip
+    - name: Ensure that PHP PPA is added.
+      apt_repository: repo=ppa:ondrej/php state=present
+    - name: Update apt cache
+      apt: update_cache=yes cache_valid_time=86400
     - name: Add deploy user
       user:
         name: '{{ deploy_user }}'
@@ -54,5 +54,5 @@
     - geerlingguy.php
 
     - homepage
-    - s2photo
-    - notes
+#    - s2photo
+#    - notes

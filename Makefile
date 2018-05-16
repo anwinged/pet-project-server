@@ -2,8 +2,7 @@ configure:
 	ansible-playbook \
 		--inventory "ansible/hosts_prod" \
 		--extra-vars='ansible_python_interpreter=/usr/bin/python3' \
-		--become \
-		--become-user=av \
+		--user=av \
 		--ask-become-pass \
 		ansible/configuration.yml
 
@@ -11,8 +10,7 @@ dry-run:
 	ansible-playbook \
 		--inventory "ansible/hosts_prod" \
 		--extra-vars='ansible_python_interpreter=/usr/bin/python3' \
-		--become \
-		--become-user=av \
+		--user=av \
 		--ask-become-pass \
 		--check \
 		--diff \
