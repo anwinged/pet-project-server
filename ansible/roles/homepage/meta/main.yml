@@ -8,7 +8,7 @@ dependencies:
       - '{{ homepage_domain }}'
       - 'www.{{ homepage_domain }}'
     tags:
-      - ssl
+      - webserver
 
   - role: blocks/static-site
     static_site_name: '{{ homepage_name }}'

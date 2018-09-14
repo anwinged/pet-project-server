@@ -28,4 +28,13 @@ server {
         index index.html;
         try_files $uri $uri/ =404;
     }
+
+    error_page 404 /404/;
+
+    location = /404/ {
+        root {{ homepage_dir }}/current;
+        index index.html;
+        try_files $uri $uri/ =409;
+        internal;
+    }
 }

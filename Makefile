@@ -6,6 +6,15 @@ configure:
 		--ask-become-pass \
 		ansible/configuration.yml
 
+configure-web-server:
+	ansible-playbook \
+		--inventory "ansible/hosts_prod" \
+		--extra-vars='ansible_python_interpreter=/usr/bin/python3' \
+		--user=av \
+		--ask-become-pass \
+		--tags webserver \
+		ansible/configuration.yml
+
 dry-run:
 	ansible-playbook \
 		--inventory "ansible/hosts_prod" \
