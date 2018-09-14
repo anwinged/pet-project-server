@@ -48,10 +48,12 @@
         groups: www-data
 
   roles:
-    - yatesr.timezone
-    - geerlingguy.nginx
-    - geerlingguy.php-versions
-    - geerlingguy.php
+    - name: yatesr.timezone
+    - name: geerlingguy.nginx
+      tags:
+        - webserver
+    - name: geerlingguy.php-versions
+    - name: geerlingguy.php
 
     - homepage
 #    - s2photo

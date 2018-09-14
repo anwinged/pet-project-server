@@ -7,9 +7,13 @@ dependencies:
     cert_domains:
       - '{{ homepage_domain }}'
       - 'www.{{ homepage_domain }}'
+    tags:
+      - ssl
 
   - role: blocks/static-site
     static_site_name: '{{ homepage_name }}'
     static_site_domain: '{{ homepage_domain }}'
     static_site_dir: '{{ homepage_dir }}'
     static_site_template: homepage.conf.j2
+    tags:
+      - webserver

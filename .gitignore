@@ -1,2 +1,4 @@
 /.idea
+/.vagrant
 /ansible/galaxy.roles/
+*.retry
