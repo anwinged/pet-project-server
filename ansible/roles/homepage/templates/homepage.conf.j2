@@ -23,18 +23,17 @@ server {
     ssl_dhparam {{ vars[homepage_name + "_ssl_dhparam"] }};
     ssl_prefer_server_ciphers on;
 
+    root {{ homepage_dir }}/current;
+    index index.html;
+
+    error_page 404 = @notfound;
+
     location / {
-        root {{ homepage_dir }}/current;
-        index index.html;
         try_files $uri $uri/ =404;
     }
 
-    error_page 404 /404/;
-
-    location = /404/ {
-        root {{ homepage_dir }}/current;
-        index index.html;
-        try_files $uri $uri/ =409;
+    location @notfound {
+        try_files /404/index.html =409;
         internal;
     }
 }
