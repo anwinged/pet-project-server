@@ -2,6 +2,9 @@
 - src: yatesr.timezone
   version: 1.0.0
 
+- src: geerlingguy.security
+  version: 1.7.0
+
 - src: geerlingguy.nginx
   version: 2.6.0
 
@@ -13,6 +16,9 @@
 
 - src: geerlingguy.mysql
   version: 2.9.0
+
+- src: geerlingguy.docker
+  version: 2.5.1
 
 - name: thefinn93.ansible-letsencrypt
   src: https://github.com/thefinn93/ansible-letsencrypt

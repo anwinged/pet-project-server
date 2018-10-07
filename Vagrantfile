@@ -1,6 +1,11 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
+
+# Этот файл предназначен для запуска тестовой виртуальной машины,
+# на которой можно обкатать роли для настройки сервера.
+
+
 ENV["LC_ALL"] = "en_US.UTF-8"
 
 # For installing ansible_local from pip on guest
@@ -12,19 +17,12 @@ Vagrant.configure("2") do |config|
 
   config.vm.network "private_network", ip: "192.168.50.10"
 
-  config.vm.provision "ansible_local" do |ansible|
-    ansible.playbook = "ansible/configuration.yml"
-    ansible.galaxy_role_file = "ansible/requirements.yml"
-    ansible.galaxy_roles_path = "ansible/galaxy.roles"
-    ansible.sudo = true
-    ansible.extra_vars = {
-      cert_type: "self-signed",
-      deploy_user: "deployer_test",
-      notes_domain: 'notes.loc',
-      notes_cert_type: 'self-signed',
-    }
+  # Приватный ключ для доступа к машине
+  config.vm.provision "shell" do |s|
+    ssh_pub_key = File.readlines("#{Dir.home}/.ssh/id_rsa.pub").first.strip
+    s.inline = <<-SHELL
+      echo #{ssh_pub_key} >> /home/vagrant/.ssh/authorized_keys
+      echo #{ssh_pub_key} >> /root/.ssh/authorized_keys
+    SHELL
   end
-
-  config.vm.network "forwarded_port", guest: 80, host: 8080, auto_correct: true
-  config.vm.network "forwarded_port", guest: 3306, host: 33060, auto_correct: true
 end

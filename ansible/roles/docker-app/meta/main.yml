@@ -1,0 +1,7 @@
+---
+dependencies:
+  - role: blocks/owner
+    owner_name: '{{ username }}'
+    owner_group: '{{ username }}'
+    owner_ssh_keys: '{{ ssh_keys | default([]) }}'
+    owner_envs: '{{ env | default({}) }}'

@@ -1,0 +1,8 @@
+---
+apps:
+  - name: homepage
+    username: homepage
+    ssh_keys:
+      - '{{ lookup("file", "av_id_rsa.pub") }}'
+    domains:
+      - vakhrushev.me
