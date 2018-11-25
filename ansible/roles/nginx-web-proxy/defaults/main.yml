@@ -1,0 +1,9 @@
+---
+nginx_proxy_name: ''
+nginx_proxy_template: ''
+nginx_proxy_params: {}
+
+nginx_ssl_type: ~
+nginx_ssl_name: '{{ nginx_proxy_name }}'
+nginx_ssl_email: ''
+nginx_ssl_domains: []

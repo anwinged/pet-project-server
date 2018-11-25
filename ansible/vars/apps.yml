@@ -1,8 +1,25 @@
 ---
+
+# Приложения
+# Описывают конфигурации приложений, секретные данные
+
 apps:
   - name: homepage
     username: homepage
     ssh_keys:
       - '{{ lookup("file", "av_id_rsa.pub") }}'
-    domains:
+
+
+# Конфигурации nginx
+# Описывают конфиги nginx, сертификаты
+
+frontends:
+  - name: vakhrushev_me
+    template: vakhrushev.me.conf.j2
+    params:
+      port: 16002
+    ssl_type: self-signed
+    ssl_email: anwinged@ya.ru
+    ssl_domains:
       - vakhrushev.me
+      - www.vakhrushev.me

@@ -1,0 +1,20 @@
+---
+- name: "Configure ssl certificate for {{ nginx_proxy_name }}"
+  include_role:
+    name: blocks/ssl-certificate
+  vars:
+    cert_type: '{{ nginx_ssl_type }}'
+    cert_name: '{{ nginx_ssl_name }}'
+    cert_email: '{{ nginx_ssl_email }}'
+    cert_domains: '{{ nginx_ssl_domains }}'
+  when: nginx_ssl_type is not none
+  tags:
+    - webserver
+
+- name: "Create nginx config for {{ nginx_proxy_name }} from {{ nginx_proxy_template }}."
+  template:
+    src: '{{ nginx_proxy_template }}'
+    dest: "/etc/nginx/sites-enabled/{{ nginx_proxy_name }}.conf"
+  notify: restart nginx
+  tags:
+    - webserver

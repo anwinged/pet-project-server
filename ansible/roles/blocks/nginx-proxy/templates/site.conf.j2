@@ -1,0 +1,15 @@
+server {
+    server_name www.{{ nginx_proxy_domain }};
+    return 301 $scheme://{{ nginx_proxy_domain }}$request_uri;
+}
+
+server {
+    listen 80;
+    server_name {{ nginx_proxy_domain }};
+
+    location / {
+        root {{ nginx_proxy_web_root }};
+        index index.html;
+        try_files $uri $uri/ =404;
+    }
+}

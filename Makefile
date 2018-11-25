@@ -1,7 +1,7 @@
 install-roles:
 	ansible-galaxy install -r "ansible/requirements.yml"
 
-test-rebuild:
+rebuild-test-machine:
 	vagrant destroy -f && vagrant up
 
 configure:
