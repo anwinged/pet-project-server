@@ -1,7 +1,7 @@
 ---
 - name: Create owner.
   include_role:
-    name: blocks/owner
+    name: owner
   vars:
     owner_name: '{{ username }}'
     owner_group: '{{ username }}'

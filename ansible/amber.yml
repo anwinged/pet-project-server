@@ -43,7 +43,7 @@
         loop_var: app_item
 
     - include_role:
-        name: nginx-web-proxy
+        name: nginx-proxy
       private: yes
       vars:
         nginx_proxy_name: '{{ fr_item.name }}'

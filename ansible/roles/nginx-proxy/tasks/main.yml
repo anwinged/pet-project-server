@@ -1,7 +1,7 @@
 ---
 - name: "Configure ssl certificate for {{ nginx_proxy_name }}"
   include_role:
-    name: blocks/ssl-certificate
+    name: ssl-certificate
   vars:
     cert_type: '{{ nginx_ssl_type }}'
     cert_name: '{{ nginx_ssl_name }}'
