@@ -8,6 +8,8 @@ apps:
     username: homepage
     ssh_keys:
       - '{{ lookup("file", "av_id_rsa.pub") }}'
+    env:
+      NGINX_PORT: 16002
 
 
 # Конфигурации nginx
@@ -21,5 +23,5 @@ frontends:
     ssl_type: self-signed
     ssl_email: anwinged@ya.ru
     ssl_domains:
-      - vakhrushev.me
-      - www.vakhrushev.me
+      - docker.vakhrushev.me
+      - www.docker.vakhrushev.me

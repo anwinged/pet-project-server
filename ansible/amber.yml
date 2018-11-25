@@ -37,7 +37,7 @@
       vars:
         username: '{{ app_item.username }}'
         ssh_keys: '{{ app_item.ssh_keys | default([]) }}'
-        envs: '{{ app_item.envs | default({}) }}'
+        env: '{{ app_item.env | default({}) }}'
       with_items: '{{ apps }}'
       loop_control:
         loop_var: app_item

@@ -1,11 +1,16 @@
 server {
-    server_name www.vakhrushev.me;
-    return 301 $scheme://vakhrushev.me$request_uri;
+    server_name docker.vakhrushev.me;
+    return 301 https://docker.vakhrushev.me$request_uri;
+}
+
+server {
+    server_name www.docker.vakhrushev.me;
+    return 301 https://docker.vakhrushev.me$request_uri;
 }
 
 server {
     listen 443 ssl http2;
-    server_name vakhrushev.me;
+    server_name docker.vakhrushev.me;
 
     ssl on;
     ssl_certificate         {{ vars[nginx_ssl_name + "_ssl_certificate"] }};
