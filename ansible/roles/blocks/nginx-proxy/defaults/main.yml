@@ -1,5 +1,0 @@
----
-nginx_proxy_name: ''
-nginx_proxy_dir: '/var/www/{{ nginx_proxy_name }}'
-nginx_proxy_web_root: '{{ nginx_proxy_dir }}/current'
-nginx_proxy_template: site.conf.j2
