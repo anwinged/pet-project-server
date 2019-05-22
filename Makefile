@@ -1,5 +1,7 @@
 install-roles:
-	ansible-galaxy install -r "ansible/requirements.yml"
+	ansible-galaxy install \
+		-r "ansible/requirements.yml" \
+		--force
 
 rebuild-test-machine:
 	vagrant destroy -f && vagrant up
@@ -32,6 +34,7 @@ dry-run:
 		ansible/configuration.yml
 
 configure-test:
+	ANSIBLE_HOST_KEY_CHECKING=False \
 	ansible-playbook \
 		--inventory "ansible/hosts_vagrant" \
 		--extra-vars 'ansible_python_interpreter=/usr/bin/python3' \

@@ -1,7 +1,4 @@
 ---
-
-# v3, nginx, docker
-
 - hosts: all
 
   vars_files:
@@ -22,36 +19,17 @@
         security_fail2ban_enabled: false
 
     - include_role:
-        name: geerlingguy.nginx
-      vars:
-        nginx_remove_default_vhost: true
-
-    - include_role:
         name: geerlingguy.docker
       vars:
         docker_users: '{{ apps | map(attribute="username") | list }}'
 
-    - include_role:
-        name: docker-app
-      private: yes
-      vars:
-        username: '{{ app_item.username }}'
-        ssh_keys: '{{ app_item.ssh_keys | default([]) }}'
-        env: '{{ app_item.env | default({}) }}'
-      with_items: '{{ apps }}'
-      loop_control:
-        loop_var: app_item
-
-    - include_role:
-        name: nginx-proxy
-      private: yes
-      vars:
-        nginx_proxy_name: '{{ fr_item.name }}'
-        nginx_proxy_template: '{{ fr_item.template }}'
-        nginx_proxy_params: '{{ fr_item.params | default({}) }}'
-        nginx_ssl_type: '{{ fr_item.ssl_type }}'
-        nginx_ssl_email: '{{ fr_item.ssl_email }}'
-        nginx_ssl_domains: '{{ fr_item.ssl_domains }}'
-      with_items: '{{ frontends }}'
-      loop_control:
-        loop_var: fr_item
+    # - include_role:
+    #     name: docker-app
+    #   private: yes
+    #   vars:
+    #     username: '{{ app_item.username }}'
+    #     ssh_keys: '{{ app_item.ssh_keys | default([]) }}'
+    #     env: '{{ app_item.env | default({}) }}'
+    #   with_items: '{{ apps }}'
+    #   loop_control:
+    #     loop_var: app_item

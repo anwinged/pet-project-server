@@ -1,19 +1,15 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-
 # Этот файл предназначен для запуска тестовой виртуальной машины,
 # на которой можно обкатать роли для настройки сервера.
 
 
 ENV["LC_ALL"] = "en_US.UTF-8"
 
-# For installing ansible_local from pip on guest
-Vagrant.require_version ">= 1.8.3"
-
 Vagrant.configure("2") do |config|
 
-  config.vm.box = "ubuntu/xenial64"
+  config.vm.box = "ubuntu/bionic64"
 
   config.vm.network "private_network", ip: "192.168.50.10"
 
