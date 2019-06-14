@@ -35,13 +35,18 @@
       vars:
         docker_users: '{{ apps | map(attribute="username") | list }}'
 
-     - include_role:
-         name: docker-app
-       private: yes
-       vars:
-         username: '{{ app_item.username }}'
-         ssh_keys: '{{ app_item.ssh_keys | default([]) }}'
-         env: '{{ app_item.env | default({}) }}'
-       with_items: '{{ apps }}'
-       loop_control:
-         loop_var: app_item
+    - include_role:
+        name: antoiner77.caddy
+      vars:
+        caddy_config: '{{ lookup("template", "templates/Caddyfile.j2") }}'
+
+#     - include_role:
+#         name: docker-app
+#       private: yes
+#       vars:
+#         username: '{{ app_item.username }}'
+#         ssh_keys: '{{ app_item.ssh_keys | default([]) }}'
+#         env: '{{ app_item.env | default({}) }}'
+#       with_items: '{{ apps }}'
+#       loop_control:
+#         loop_var: app_item
