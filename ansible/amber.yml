@@ -1,9 +1,6 @@
 ---
 - hosts: all
 
-  vars_files:
-    - vars/apps.yml
-
   tasks:
 
     - name: 'Install additional packages.'
@@ -14,12 +11,12 @@
         packages:
           - python3-pip
 
-    - include_role:
+    - import_role:
         name: yatesr.timezone
       vars:
         timezone: UTC
 
-    - include_role:
+    - import_role:
         name: geerlingguy.security
       vars:
         security_ssh_permit_root_login: "yes"
@@ -30,22 +27,26 @@
       pip:
         name: docker
 
-    - include_role:
+    - import_role:
         name: geerlingguy.docker
       vars:
-        docker_users: '{{ apps | map(attribute="username") | list }}'
+        docker_users:
+          - homepage
 
-    - include_role:
+    - import_role:
         name: antoiner77.caddy
       vars:
         caddy_config: '{{ lookup("template", "templates/Caddyfile.j2") }}'
+      tags:
+        - webserver
 
-    - include_role:
+    # Applications
+
+    - import_role:
         name: docker-app
       vars:
-        username: '{{ app_item.username }}'
-        ssh_keys: '{{ app_item.ssh_keys | default([]) }}'
-        env: '{{ app_item.env | default({}) }}'
-      with_items: '{{ apps }}'
-      loop_control:
-        loop_var: app_item
+        username: homepage
+        ssh_keys:
+          - '{{ lookup("file", "files/av_id_rsa.pub") }}'
+        env:
+          DOCKER_PREFIX: homepage

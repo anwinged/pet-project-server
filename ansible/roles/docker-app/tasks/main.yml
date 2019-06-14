@@ -1,6 +1,6 @@
 ---
 - name: Create owner.
-  include_role:
+  import_role:
     name: owner
   vars:
     owner_name: '{{ username }}'

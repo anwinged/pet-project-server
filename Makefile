@@ -36,9 +36,16 @@ dry-run:
 configure-test:
 	ANSIBLE_HOST_KEY_CHECKING=False \
 	ansible-playbook \
-		--inventory "ansible/hosts_vagrant" \
-		--extra-vars 'ansible_python_interpreter=/usr/bin/python3' \
-		--user root \
+		--inventory="ansible/hosts_vagrant" \
+		--extra-vars="ansible_python_interpreter=/usr/bin/python3" \
+		--user="root" \
+		ansible/amber.yml
+
+configure-test-list-tags:
+	ANSIBLE_HOST_KEY_CHECKING=False \
+	ansible-playbook \
+		--inventory="ansible/hosts_vagrant" \
+		--list-tags \
 		ansible/amber.yml
 
 lint:
