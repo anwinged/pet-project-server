@@ -6,48 +6,53 @@ install-roles:
 rebuild-test-machine:
 	vagrant destroy -f && vagrant up
 
-configure:
-	ansible-playbook \
-		--inventory "ansible/hosts_prod" \
-		--extra-vars='ansible_python_interpreter=/usr/bin/python3' \
-		--user=av \
-		--ask-become-pass \
-		ansible/configuration.yml
+PLAYBOOK := ansible/configuration.yml
+STAGE := vagrant
 
-configure-web-server:
+ifeq ($(STAGE), prod)
+	ANSIBLE_HOST_KEY_CHECKING := True
+	INVENTORY := ansible/hosts_prod
+	USER_ARGS := --user="av" --ask-become-pass
+else
+	ANSIBLE_HOST_KEY_CHECKING := False
+	INVENTORY := ansible/hosts_vagrant
+	USER_ARGS := --user="root"
+endif
+
+ifneq ($(TAGS),)
+	TAGS_ARGS := --tags="$(TAGS)"
+else
+	TAGS_ARGS :=
+endif
+
+configure:
+	ANSIBLE_HOST_KEY_CHECKING=$(ANSIBLE_HOST_KEY_CHECKING) \
 	ansible-playbook \
-		--inventory "ansible/hosts_prod" \
+		$(USER_ARGS) \
+		$(TAGS_ARGS) \
+		--inventory="$(INVENTORY)" \
 		--extra-vars='ansible_python_interpreter=/usr/bin/python3' \
-		--user=av \
-		--ask-become-pass \
-		--tags webserver \
-		ansible/configuration.yml
+		$(PLAYBOOK)
+
+configure-env:
+	$(MAKE) configure TAGS="env"
 
 dry-run:
+	ANSIBLE_HOST_KEY_CHECKING=$(ANSIBLE_HOST_KEY_CHECKING) \
 	ansible-playbook \
-		--inventory "ansible/hosts_prod" \
+		$(USER_ARGS) \
+		$(TAGS_ARGS) \
+		--inventory="$(INVENTORY)" \
 		--extra-vars='ansible_python_interpreter=/usr/bin/python3' \
-		--user=av \
-		--ask-become-pass \
 		--check \
 		--diff \
-		ansible/configuration.yml
+		$(PLAYBOOK)
 
-configure-test:
-	ANSIBLE_HOST_KEY_CHECKING=False \
+list-tags:
 	ansible-playbook \
-		--inventory="ansible/hosts_vagrant" \
-		--extra-vars="ansible_python_interpreter=/usr/bin/python3" \
-		--user="root" \
-		--tags="webserver,apps" \
-		ansible/amber.yml
-
-configure-test-list-tags:
-	ANSIBLE_HOST_KEY_CHECKING=False \
-	ansible-playbook \
-		--inventory="ansible/hosts_vagrant" \
+		--inventory="$(INVENTORY)" \
 		--list-tags \
-		ansible/amber.yml
+		$(PLAYBOOK)
 
 lint:
 	ansible-lint "./ansible/configuration.yml" --exclude="./ansible/galaxy.roles/" -v || true

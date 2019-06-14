@@ -19,4 +19,4 @@
     security_opts:
       - 'apparmor:unconfined'
     env:
-      PGID: '{{ docker_group.stdout }}'
+      PGID: '{{ docker_group.stdout|default(999) }}'
