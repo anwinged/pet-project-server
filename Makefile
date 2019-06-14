@@ -39,6 +39,7 @@ configure-test:
 		--inventory="ansible/hosts_vagrant" \
 		--extra-vars="ansible_python_interpreter=/usr/bin/python3" \
 		--user="root" \
+		--tags="monitoring" \
 		ansible/amber.yml
 
 configure-test-list-tags:
