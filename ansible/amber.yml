@@ -6,6 +6,14 @@
 
   tasks:
 
+    - name: 'Install additional packages.'
+      apt:
+        name: '{{ packages }}'
+        update_cache: yes
+      vars:
+        packages:
+          - python3-pip
+
     - include_role:
         name: yatesr.timezone
       vars:
@@ -18,18 +26,22 @@
         security_autoupdate_enabled: false
         security_fail2ban_enabled: false
 
+    - name: 'Install python docker lib.'
+      pip:
+        name: docker
+
     - include_role:
         name: geerlingguy.docker
       vars:
         docker_users: '{{ apps | map(attribute="username") | list }}'
 
-    # - include_role:
-    #     name: docker-app
-    #   private: yes
-    #   vars:
-    #     username: '{{ app_item.username }}'
-    #     ssh_keys: '{{ app_item.ssh_keys | default([]) }}'
-    #     env: '{{ app_item.env | default({}) }}'
-    #   with_items: '{{ apps }}'
-    #   loop_control:
-    #     loop_var: app_item
+     - include_role:
+         name: docker-app
+       private: yes
+       vars:
+         username: '{{ app_item.username }}'
+         ssh_keys: '{{ app_item.ssh_keys | default([]) }}'
+         env: '{{ app_item.env | default({}) }}'
+       with_items: '{{ apps }}'
+       loop_control:
+         loop_var: app_item
