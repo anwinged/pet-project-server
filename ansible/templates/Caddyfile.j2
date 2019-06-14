@@ -1,11 +1,21 @@
 # NetData proxy
-:29999 {
+status.vakhrushev.me {
     proxy / 127.0.0.1:19999 {
         transparent
     }
+
+    tls anwinged@ya.ru
+    basicauth / anton show-me-the-status
 }
 
 # Homepage
-:80 {
+homepage.vakhrushev.me, vakhrushev.me {
     root /var/www/homepage/current
+
+    tls anwinged@ya.ru
+    gzip
+
+    errors {
+        404 404/index.html
+    }
 }
