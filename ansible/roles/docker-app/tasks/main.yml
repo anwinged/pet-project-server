@@ -1,9 +1,18 @@
 ---
-- name: Create owner.
+- name: 'Create owner.'
   import_role:
     name: owner
   vars:
     owner_name: '{{ username }}'
     owner_group: '{{ username }}'
+    owner_extra_groups: '{{ extra_groups | default([]) }}'
     owner_ssh_keys: '{{ ssh_keys | default([]) }}'
     owner_env: '{{ env | default({}) }}'
+
+- name: 'Create web dir.'
+  file:
+    path: '/var/www/{{ username }}'
+    state: directory
+    owner: '{{ username }}'
+    group: '{{ username }}'
+    recurse: True

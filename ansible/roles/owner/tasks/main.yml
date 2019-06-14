@@ -13,6 +13,7 @@
   user:
     name: '{{ owner_name }}'
     group: '{{ owner_group }}'
+    groups: '{{ owner_extra_groups }}'
     shell: /bin/bash
 
 - name: 'Set up user ssh keys for user "{{ owner_name }}".'
