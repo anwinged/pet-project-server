@@ -9,19 +9,4 @@ apps:
     ssh_keys:
       - '{{ lookup("file", "av_id_rsa.pub") }}'
     env:
-      NGINX_PORT: 16002
-
-
-# Конфигурации nginx
-# Описывают конфиги nginx, сертификаты
-
-frontends:
-  - name: vakhrushev_me
-    template: vakhrushev.me.conf.j2
-    params:
-      port: 16002
-    ssl_type: self-signed
-    ssl_email: anwinged@ya.ru
-    ssl_domains:
-      - docker.vakhrushev.me
-      - www.docker.vakhrushev.me
+      DOCKER_PREFIX: homepage

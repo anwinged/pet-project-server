@@ -40,13 +40,12 @@
       vars:
         caddy_config: '{{ lookup("template", "templates/Caddyfile.j2") }}'
 
-#     - include_role:
-#         name: docker-app
-#       private: yes
-#       vars:
-#         username: '{{ app_item.username }}'
-#         ssh_keys: '{{ app_item.ssh_keys | default([]) }}'
-#         env: '{{ app_item.env | default({}) }}'
-#       with_items: '{{ apps }}'
-#       loop_control:
-#         loop_var: app_item
+    - include_role:
+        name: docker-app
+      vars:
+        username: '{{ app_item.username }}'
+        ssh_keys: '{{ app_item.ssh_keys | default([]) }}'
+        env: '{{ app_item.env | default({}) }}'
+      with_items: '{{ apps }}'
+      loop_control:
+        loop_var: app_item
