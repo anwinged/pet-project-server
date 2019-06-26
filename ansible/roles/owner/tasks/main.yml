@@ -23,7 +23,7 @@
     key: '{{ item }}'
     state: present
   with_items: '{{ owner_ssh_keys }}'
-  when: owner_ssh_keys
+  when: owner_ssh_keys | bool
 
 - name: 'Prepare env variables.'
   set_fact:
