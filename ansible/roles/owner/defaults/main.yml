@@ -2,4 +2,4 @@
 owner_name: ''
 owner_group: '{{ owner_name }}'
 owner_ssh_keys: []
-owner_envs: {}
+owner_env: {}
