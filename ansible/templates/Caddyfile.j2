@@ -19,3 +19,13 @@ homepage.vakhrushev.me, vakhrushev.me {
         404 404/index.html
     }
 }
+
+# Notes app
+notes.vakhrushev.me {
+    proxy / 127.0.0.1:41080 {
+        transparent
+    }
+
+    tls anwinged@ya.ru
+    basicauth / anton show-me-the-notes
+}
