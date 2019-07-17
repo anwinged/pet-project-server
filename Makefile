@@ -32,6 +32,7 @@ configure:
 		$(TAGS_ARGS) \
 		--inventory="$(INVENTORY)" \
 		--extra-vars='ansible_python_interpreter=/usr/bin/python3' \
+		--ask-vault-pass \
 		$(PLAYBOOK)
 
 configure-apps:
@@ -44,6 +45,7 @@ dry-run:
 		$(TAGS_ARGS) \
 		--inventory="$(INVENTORY)" \
 		--extra-vars='ansible_python_interpreter=/usr/bin/python3' \
+		--ask-vault-pass \
 		--check \
 		--diff \
 		$(PLAYBOOK)

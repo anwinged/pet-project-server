@@ -5,7 +5,7 @@ status.vakhrushev.me, :29999 {
     }
 
     tls anwinged@ya.ru
-    basicauth / anton show-me-the-status
+    basicauth / {{ netdata.login }} {{ netdata.password }}
 }
 
 # Homepage
@@ -22,10 +22,21 @@ homepage.vakhrushev.me, vakhrushev.me {
 
 # Notes app
 notes.vakhrushev.me {
-    proxy / 127.0.0.1:41080 {
+    proxy / 127.0.0.1:{{ notes_port }} {
         transparent
     }
 
     tls anwinged@ya.ru
-    basicauth / anton show-me-the-notes
+    basicauth / {{ notes.login }} {{ notes.password }}
+}
+
+# Yandex Proxy Imager
+preview.vakhrushev.me {
+    proxy /img https://webdav.yandex.ru {
+        transparent
+        header_upstream User-Agent "yandex-disk-previewer/1.0"
+        header_upstream Authorization "Basic {{ (yandex_disk.login ~ ':' ~ yandex_disk.password) | b64encode }}"
+    }
+
+    tls anwinged@ya.ru
 }
