@@ -2,6 +2,7 @@
 - hosts: all
   vars:
     notes_port: 41080
+    dayoff_port: 41081
   vars_files:
     - vars/vars.yml
 
@@ -98,5 +99,23 @@
           MAILER_PORT: 1025
           MAILER_USER: noreply@notes.tld
           MAILER_PASSWORD: ''
+      tags:
+        - apps
+
+    - import_role:
+        name: docker-app
+      vars:
+        username: dayoff
+        extra_groups:
+          - docker
+        ssh_keys:
+          - '{{ lookup("file", "files/av_id_rsa.pub") }}'
+          - '{{ lookup("file", "files/dayoff_id_rsa.pub") }}'
+        env:
+          DOCKER_PREFIX: dayoff
+          PROJECT_NAME: dayoff
+          IMAGE_PREFIX: dayoff
+          CONTAINER_PREFIX: dayoff
+          WEB_SERVER_PORT: '127.0.0.1:{{ dayoff_port }}'
       tags:
         - apps

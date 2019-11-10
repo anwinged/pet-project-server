@@ -30,6 +30,15 @@ notes.vakhrushev.me {
     basicauth / {{ notes.login }} {{ notes.password }}
 }
 
+# Dayoff app
+dayoff.vakhrushev.me {
+    proxy / 127.0.0.1:{{ dayoff_port }} {
+        transparent
+    }
+
+    tls anwinged@ya.ru
+}
+
 # Yandex Proxy Imager
 preview.vakhrushev.me {
     proxy /img https://webdav.yandex.ru {
