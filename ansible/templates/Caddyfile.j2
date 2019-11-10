@@ -1,3 +1,7 @@
+# -------------------------------------------------------------------
+# Proxy services
+# -------------------------------------------------------------------
+
 # NetData proxy
 status.vakhrushev.me, :29999 {
     proxy / 127.0.0.1:19999 {
@@ -7,6 +11,21 @@ status.vakhrushev.me, :29999 {
     tls anwinged@ya.ru
     basicauth / {{ netdata.login }} {{ netdata.password }}
 }
+
+# Yandex Proxy Imager
+preview.vakhrushev.me {
+    proxy /img https://webdav.yandex.ru {
+        transparent
+        header_upstream User-Agent "yandex-disk-previewer/1.0"
+        header_upstream Authorization "Basic {{ (yandex_disk.login ~ ':' ~ yandex_disk.password) | b64encode }}"
+    }
+
+    tls anwinged@ya.ru
+}
+
+# -------------------------------------------------------------------
+# Applications
+# -------------------------------------------------------------------
 
 # Homepage
 homepage.vakhrushev.me, vakhrushev.me {
@@ -34,17 +53,6 @@ notes.vakhrushev.me {
 dayoff.vakhrushev.me {
     proxy / 127.0.0.1:{{ dayoff_port }} {
         transparent
-    }
-
-    tls anwinged@ya.ru
-}
-
-# Yandex Proxy Imager
-preview.vakhrushev.me {
-    proxy /img https://webdav.yandex.ru {
-        transparent
-        header_upstream User-Agent "yandex-disk-previewer/1.0"
-        header_upstream Authorization "Basic {{ (yandex_disk.login ~ ':' ~ yandex_disk.password) | b64encode }}"
     }
 
     tls anwinged@ya.ru
