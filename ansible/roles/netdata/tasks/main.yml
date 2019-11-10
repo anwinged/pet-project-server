@@ -6,7 +6,7 @@
 - name: 'Create NetData container.'
   docker_container:
     name: netdata
-    image: 'netdata/netdata:v1.16.0'
+    image: 'netdata/netdata:v1.18.1'
     restart_policy: 'always'
     published_ports:
       - '127.0.0.1:19999:19999'
