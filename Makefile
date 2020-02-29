@@ -12,7 +12,7 @@ STAGE := vagrant
 ifeq ($(STAGE), prod)
 	ANSIBLE_HOST_KEY_CHECKING := True
 	INVENTORY := ansible/hosts_prod
-	USER_ARGS := --user="root"
+	USER_ARGS := --user="mayor" --become
 else
 	ANSIBLE_HOST_KEY_CHECKING := False
 	INVENTORY := ansible/hosts_vagrant

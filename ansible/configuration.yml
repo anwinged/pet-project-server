@@ -14,6 +14,7 @@
         update_cache: yes
       vars:
         packages:
+          - git
           - python3-pip
 
     - import_role:
@@ -36,7 +37,7 @@
         name: geerlingguy.docker
 
     - import_role:
-        name: antoiner77.caddy
+        name: caddy_ansible.caddy_ansible
       vars:
         caddy_config: '{{ lookup("template", "templates/Caddyfile.j2") }}'
         caddy_update: False
@@ -49,7 +50,7 @@
     - import_role:
         name: netdata
       vars:
-        netdata_version: 'v1.18.1'
+        netdata_version: 'v1.20.0'
       tags:
         - monitoring
 
@@ -66,41 +67,6 @@
           - '{{ lookup("file", "files/av_id_rsa.pub") }}'
         env:
           DOCKER_PREFIX: homepage
-      tags:
-        - apps
-
-    - import_role:
-        name: docker-app
-      vars:
-        username: notes
-        extra_groups:
-          - docker
-        ssh_keys:
-          - '{{ lookup("file", "files/av_id_rsa.pub") }}'
-        env:
-          PROJECT_NAME: notes
-          IMAGE_PREFIX: notes
-          CONTAINER_PREFIX: notes
-          WEB_SERVER_PORT: '127.0.0.1:{{ notes_port }}'
-          DATA_DIR: /home/notes/app/data
-          CACHE_DIR: /home/notes/app/cache
-          APP_ENV: prod
-          SYMFONY_ENV: prod
-          SECRET_TOKEN: '{{ notes.secret }}'
-          DATABASE_HOST: notes-db
-          DATABASE_PORT: 3306
-          DATABASE_NAME: notes
-          DATABASE_USER: notes
-          DATABASE_PASSWORD: notes
-          DATABASE_SEARCH_HOST: notes-db-search
-          DATABASE_SEARCH_PORT: 3306
-          DATABASE_SEARCH_NAME: notes-search
-          DATABASE_SEARCH_USER: notes-search
-          DATABASE_SEARCH_PASSWORD: notes-search
-          MAILER_HOST: 127.0.0.1
-          MAILER_PORT: 1025
-          MAILER_USER: noreply@notes.tld
-          MAILER_PASSWORD: ''
       tags:
         - apps
 

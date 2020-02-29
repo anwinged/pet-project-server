@@ -12,7 +12,7 @@ status.vakhrushev.me, :29999 {
     basicauth / {{ netdata.login }} {{ netdata.password }}
 }
 
-# Yandex Proxy Imager
+# Yandex Image Proxy
 preview.vakhrushev.me {
     proxy /img https://webdav.yandex.ru {
         transparent
@@ -37,16 +37,6 @@ homepage.vakhrushev.me, vakhrushev.me {
     errors {
         404 404/index.html
     }
-}
-
-# Notes app
-notes.vakhrushev.me {
-    proxy / 127.0.0.1:{{ notes_port }} {
-        transparent
-    }
-
-    tls anwinged@ya.ru
-    basicauth / {{ notes.login }} {{ notes.password }}
 }
 
 # Dayoff app
