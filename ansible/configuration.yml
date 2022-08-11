@@ -50,7 +50,7 @@
     - import_role:
         name: netdata
       vars:
-        netdata_version: 'v1.31.0'
+        netdata_version: 'v1.36.0'
       tags:
         - monitoring
 
