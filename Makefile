@@ -27,9 +27,7 @@ endif
 
 edit-vars:
 	EDITOR=micro \
-	ansible-vault edit \
-		--vault-password-file="ansible-vault-password-file" \
-		ansible/vars/vars.yml
+	ansible-vault edit ansible/vars/vars.yml
 
 configure:
 	ANSIBLE_HOST_KEY_CHECKING=$(ANSIBLE_HOST_KEY_CHECKING) \
@@ -38,7 +36,6 @@ configure:
 		$(TAGS_ARGS) \
 		--inventory="$(INVENTORY)" \
 		--extra-vars='ansible_python_interpreter=/usr/bin/python3' \
-		--vault-password-file="ansible-vault-password-file" \
 		$(PLAYBOOK)
 
 configure-prod:
@@ -54,7 +51,6 @@ dry-run:
 		$(TAGS_ARGS) \
 		--inventory="$(INVENTORY)" \
 		--extra-vars='ansible_python_interpreter=/usr/bin/python3' \
-		--vault-password-file="ansible-vault-password-file" \
 		--check \
 		--diff -vvv \
 		$(PLAYBOOK)
@@ -62,7 +58,6 @@ dry-run:
 list-tags:
 	ansible-playbook \
 		--inventory="$(INVENTORY)" \
-		--vault-password-file="ansible-vault-password-file" \
 		--list-tags \
 		$(PLAYBOOK)
 
