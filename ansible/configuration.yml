@@ -25,7 +25,7 @@
     - import_role:
         name: geerlingguy.security
       vars:
-        security_ssh_permit_root_login: "yes"
+        security_ssh_permit_root_login: "no"
         security_autoupdate_enabled: "no"
         security_fail2ban_enabled: "no"
 
@@ -36,17 +36,17 @@
     - import_role:
         name: geerlingguy.docker
 
-# Temporary disable
-#    - import_role:
-#        name: caddy_ansible.caddy_ansible
-#      vars:
+    - import_role:
+        name: caddy_ansible.caddy_ansible
+      vars:
+        caddy_github_token: '{{ caddy_vars.github_token }}'
 #        caddy_config: '{{ lookup("template", "templates/Caddyfile.j2") }}'
-#        caddy_update: False
-#        caddy_setcap: True
-#        caddy_systemd_capabilities_enabled: True
-#        caddy_systemd_capabilities: "CAP_NET_BIND_SERVICE"
-#      tags:
-#        - webserver
+        caddy_update: False
+        caddy_setcap: True
+        caddy_systemd_capabilities_enabled: True
+        caddy_systemd_capabilities: "CAP_NET_BIND_SERVICE"
+      tags:
+        - webserver
 
     - import_role:
         name: netdata

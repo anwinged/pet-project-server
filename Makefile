@@ -12,7 +12,7 @@ STAGE := vagrant
 ifeq ($(STAGE), prod)
 	ANSIBLE_HOST_KEY_CHECKING := True
 	INVENTORY := ansible/hosts_prod
-	USER_ARGS := --user="mayor" --become
+	USER_ARGS := --user="major" --become
 else
 	ANSIBLE_HOST_KEY_CHECKING := False
 	INVENTORY := ansible/hosts_vagrant
@@ -25,6 +25,12 @@ else
 	TAGS_ARGS :=
 endif
 
+edit-vars:
+	EDITOR=micro \
+	ansible-vault edit \
+		--vault-password-file="ansible-vault-password-file" \
+		ansible/vars/vars.yml
+
 configure:
 	ANSIBLE_HOST_KEY_CHECKING=$(ANSIBLE_HOST_KEY_CHECKING) \
 	ansible-playbook \
@@ -34,6 +40,9 @@ configure:
 		--extra-vars='ansible_python_interpreter=/usr/bin/python3' \
 		--vault-password-file="ansible-vault-password-file" \
 		$(PLAYBOOK)
+
+configure-prod:
+	$(MAKE) configure STAGE="prod"
 
 configure-apps:
 	$(MAKE) configure TAGS="webserver,apps,env"
@@ -47,7 +56,7 @@ dry-run:
 		--extra-vars='ansible_python_interpreter=/usr/bin/python3' \
 		--vault-password-file="ansible-vault-password-file" \
 		--check \
-		--diff \
+		--diff -vvv \
 		$(PLAYBOOK)
 
 list-tags:
