@@ -32,7 +32,7 @@ configure:
 		$(TAGS_ARGS) \
 		--inventory="$(INVENTORY)" \
 		--extra-vars='ansible_python_interpreter=/usr/bin/python3' \
-		--ask-vault-pass \
+		--vault-password-file="ansible-vault-password-file" \
 		$(PLAYBOOK)
 
 configure-apps:
@@ -45,7 +45,7 @@ dry-run:
 		$(TAGS_ARGS) \
 		--inventory="$(INVENTORY)" \
 		--extra-vars='ansible_python_interpreter=/usr/bin/python3' \
-		--ask-vault-pass \
+		--vault-password-file="ansible-vault-password-file" \
 		--check \
 		--diff \
 		$(PLAYBOOK)
@@ -53,6 +53,7 @@ dry-run:
 list-tags:
 	ansible-playbook \
 		--inventory="$(INVENTORY)" \
+		--vault-password-file="ansible-vault-password-file" \
 		--list-tags \
 		$(PLAYBOOK)
 

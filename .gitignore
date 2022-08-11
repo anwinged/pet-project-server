@@ -1,4 +1,5 @@
 /.idea
 /.vagrant
 /ansible/galaxy.roles/
+ansible-vault-password-file
 *.retry
