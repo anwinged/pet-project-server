@@ -32,15 +32,27 @@
     - name: 'Install python docker lib.'
       pip:
         name: docker
+      tags:
+        - docker
 
     - import_role:
         name: geerlingguy.docker
+      tags:
+        - docker
+
+    - name: 'Ensure networkd service is started (required by Caddy).'
+      systemd:
+        name: systemd-networkd
+        state: started
+        enabled: true
+      tags:
+        - webserver
 
     - import_role:
         name: caddy_ansible.caddy_ansible
       vars:
         caddy_github_token: '{{ caddy_vars.github_token }}'
-#        caddy_config: '{{ lookup("template", "templates/Caddyfile.j2") }}'
+        caddy_config: '{{ lookup("template", "templates/Caddyfile.j2") }}'
         caddy_update: False
         caddy_setcap: True
         caddy_systemd_capabilities_enabled: True
