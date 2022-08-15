@@ -1,3 +1,4 @@
 ---
 netdata_version: 'v1.18.0'
 netdata_image: 'netdata/netdata:{{ netdata_version }}'
+netdata_exposed_port: '19999'

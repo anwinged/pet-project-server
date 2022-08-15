@@ -4,6 +4,7 @@
     notes_port: 41080
     dayoff_port: 41081
     homepage_port: 41082
+    netdata_port: 41083
   vars_files:
     - vars/vars.yml
 
@@ -65,6 +66,7 @@
         name: netdata
       vars:
         netdata_version: 'v1.36.0'
+        netdata_exposed_port: '{{ netdata_port }}'
       tags:
         - monitoring
 

@@ -9,7 +9,7 @@
     image: '{{ netdata_image }}'
     restart_policy: 'always'
     published_ports:
-      - '127.0.0.1:19999:19999'
+      - '127.0.0.1:{{ netdata_exposed_port }}:19999'
     volumes:
       - '/proc:/host/proc:ro'
       - '/sys:/host/sys:ro'

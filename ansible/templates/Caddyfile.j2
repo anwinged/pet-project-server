@@ -4,13 +4,16 @@
 
 vakhrushev.me {
     tls anwinged@ya.ru
-    respond "Hello!"
+
+    reverse_proxy {
+        to 127.0.0.1:{{ homepage_port }}
+    }
 }
 
 # NetData proxy
 status.vakhrushev.me, :29999 {
     reverse_proxy {
-        to 127.0.0.1:19999
+        to 127.0.0.1:{{ netdata_port }}
     }
 
     tls anwinged@ya.ru
