@@ -3,6 +3,7 @@
   vars:
     notes_port: 41080
     dayoff_port: 41081
+    homepage_port: 41082
   vars_files:
     - vars/vars.yml
 
@@ -74,12 +75,15 @@
       vars:
         username: homepage
         extra_groups:
-          - www-data
           - docker
         ssh_keys:
           - '{{ lookup("file", "files/av_id_rsa.pub") }}'
         env:
           DOCKER_PREFIX: homepage
+          PROJECT_NAME: homepage
+          IMAGE_PREFIX: homepage
+          CONTAINER_PREFIX: homepage
+          WEB_SERVER_PORT: '127.0.0.1:{{ homepage_port }}'
       tags:
         - apps
 
