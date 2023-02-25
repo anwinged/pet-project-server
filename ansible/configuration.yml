@@ -1,10 +1,11 @@
 ---
 - hosts: all
   vars:
-    notes_port: 41080
-    dayoff_port: 41081
-    homepage_port: 41082
-    netdata_port: 41083
+    base_port: 41080
+    notes_port: "{{ base_port + 1 }}"
+    dayoff_port: "{{ base_port + 2 }}"
+    homepage_port: "{{ base_port + 3 }}"
+    netdata_port: "{{ base_port + 4 }}"
   vars_files:
     - vars/vars.yml
 
@@ -65,7 +66,7 @@
     - import_role:
         name: netdata
       vars:
-        netdata_version: 'v1.36.0'
+        netdata_version: 'v1.38.1'
         netdata_exposed_port: '{{ netdata_port }}'
       tags:
         - monitoring

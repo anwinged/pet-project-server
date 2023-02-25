@@ -1,11 +1,3 @@
-install-roles:
-	ansible-galaxy install \
-		-r "ansible/requirements.yml" \
-		--force
-
-rebuild-test-machine:
-	vagrant destroy -f && vagrant up
-
 PLAYBOOK := ansible/configuration.yml
 STAGE := vagrant
 
@@ -24,6 +16,16 @@ ifneq ($(TAGS),)
 else
 	TAGS_ARGS :=
 endif
+
+# Tasks
+
+install-roles:
+	ansible-galaxy install \
+		--role-file "ansible/requirements.yml" \
+		--force
+
+rebuild-test-machine:
+	vagrant destroy -f && vagrant up
 
 edit-vars:
 	EDITOR=micro \
