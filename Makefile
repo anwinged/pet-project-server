@@ -66,3 +66,6 @@ list-tags:
 lint:
 	ansible-lint "./ansible/configuration.yml" --exclude="./ansible/galaxy.roles/" -v || true
 	ansible-lint "./ansible/roles/ssl-certificate/tasks/main.yml" -v || true
+
+caddy-hash-password:
+	docker run -it caddy:2.5.2 caddy hash-password --plaintext="$(PASS)"

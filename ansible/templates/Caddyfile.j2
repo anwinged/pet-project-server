@@ -18,8 +18,8 @@ status.vakhrushev.me, :29999 {
 
     tls anwinged@ya.ru
 
-    # basicauth / {
-    #    {{ netdata.login }} {{ netdata.password | password_hash('blowfish') | b64encode }}
-    # }
+    basicauth / {
+       {{ netdata.login }} {{ netdata.password_hash }}
+    }
 }
 
