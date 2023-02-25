@@ -16,3 +16,9 @@
     owner: '{{ username }}'
     group: '{{ username }}'
     recurse: True
+
+- name: 'Login to yandex docker registry.'
+  ansible.builtin.script:
+    cmd: 'files/yandex-docker-registry-auth.sh'
+  become: yes
+  become_user: '{{ username }}'

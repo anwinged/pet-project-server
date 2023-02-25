@@ -19,6 +19,7 @@
         packages:
           - git
           - python3-pip
+          - acl
 
     - import_role:
         name: yatesr.timezone

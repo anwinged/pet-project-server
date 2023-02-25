@@ -38,6 +38,7 @@ configure:
 		$(TAGS_ARGS) \
 		--inventory="$(INVENTORY)" \
 		--extra-vars='ansible_python_interpreter=/usr/bin/python3' \
+		-vvv \
 		$(PLAYBOOK)
 
 configure-prod:
@@ -45,6 +46,9 @@ configure-prod:
 
 configure-apps:
 	$(MAKE) configure TAGS="webserver,apps,env"
+
+configure-users:
+	$(MAKE) configure TAGS="apps,env"
 
 dry-run:
 	ANSIBLE_HOST_KEY_CHECKING=$(ANSIBLE_HOST_KEY_CHECKING) \
