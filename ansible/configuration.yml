@@ -29,9 +29,9 @@
     - import_role:
         name: geerlingguy.security
       vars:
-        security_ssh_permit_root_login: "no"
+        security_ssh_permit_root_login: "yes"
         security_autoupdate_enabled: "no"
-        security_fail2ban_enabled: "no"
+        security_fail2ban_enabled: "yes"
 
     - name: 'Install python docker lib.'
       pip:
