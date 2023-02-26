@@ -6,6 +6,7 @@
     dayoff_port: "{{ base_port + 2 }}"
     homepage_port: "{{ base_port + 3 }}"
     netdata_port: "{{ base_port + 4 }}"
+    wiki_port: "{{ base_port + 5 }}"
   vars_files:
     - vars/vars.yml
 
@@ -106,5 +107,22 @@
           IMAGE_PREFIX: dayoff
           CONTAINER_PREFIX: dayoff
           WEB_SERVER_PORT: '127.0.0.1:{{ dayoff_port }}'
+      tags:
+        - apps
+
+    - import_role:
+        name: docker-app
+      vars:
+        username: wiki
+        extra_groups:
+          - docker
+        ssh_keys:
+          - '{{ lookup("file", "files/av_id_rsa.pub") }}'
+        env:
+          PROJECT_NAME: wiki
+          DOCKER_PREFIX: wiki
+          IMAGE_PREFIX: wiki
+          CONTAINER_PREFIX: wiki
+          WEB_SERVER_PORT: '127.0.0.1:{{ wiki_port }}'
       tags:
         - apps
