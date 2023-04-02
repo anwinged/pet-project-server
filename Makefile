@@ -47,6 +47,9 @@ configure-prod:
 configure-apps:
 	$(MAKE) configure TAGS="webserver,apps,env"
 
+configure-apps-in-prod:
+	$(MAKE) configure STAGE="prod" TAGS="webserver,apps,env"
+
 configure-users:
 	$(MAKE) configure TAGS="apps,env"
 

@@ -12,11 +12,11 @@ vakhrushev.me {
 
 # NetData proxy
 status.vakhrushev.me, :29999 {
+    tls anwinged@ya.ru
+
     reverse_proxy {
         to 127.0.0.1:{{ netdata_port }}
     }
-
-    tls anwinged@ya.ru
 
     basicauth / {
        {{ netdata.login }} {{ netdata.password_hash }}
@@ -28,5 +28,21 @@ wiki.vakhrushev.me {
 
     reverse_proxy {
         to 127.0.0.1:{{ wiki_port }}
+    }
+}
+
+nomie.vakhrushev.me {
+    tls anwinged@ya.ru
+
+    reverse_proxy {
+        to 127.0.0.1:{{ nomie_port }}
+    }
+}
+
+nomie-db.vakhrushev.me {
+    tls anwinged@ya.ru
+
+    reverse_proxy {
+        to 127.0.0.1:{{ nomie_db_port }}
     }
 }

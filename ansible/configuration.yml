@@ -7,6 +7,8 @@
     homepage_port: "{{ base_port + 3 }}"
     netdata_port: "{{ base_port + 4 }}"
     wiki_port: "{{ base_port + 5 }}"
+    nomie_port: "{{ base_port + 6 }}"
+    nomie_db_port: "{{ base_port + 7 }}"
   vars_files:
     - vars/vars.yml
 
@@ -124,5 +126,25 @@
           IMAGE_PREFIX: wiki
           CONTAINER_PREFIX: wiki
           WEB_SERVER_PORT: '127.0.0.1:{{ wiki_port }}'
+      tags:
+        - apps
+
+    - import_role:
+        name: docker-app
+      vars:
+        username: nomie
+        extra_groups:
+          - docker
+        ssh_keys:
+          - '{{ lookup("file", "files/av_id_rsa.pub") }}'
+        env:
+          PROJECT_NAME: nomie
+          DOCKER_PREFIX: nomie
+          IMAGE_PREFIX: nomie
+          CONTAINER_PREFIX: nomie
+          WEB_SERVER_PORT: '127.0.0.1:{{ nomie_port }}'
+          COUCH_DB_PORT: '127.0.0.1:{{ nomie_db_port }}'
+          COUCH_DB_USER: 'couch-admin'
+          COUCH_DB_PASSWORD: '{{ nomie.couch_db_password }}'
       tags:
         - apps
