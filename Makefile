@@ -44,6 +44,9 @@ configure:
 configure-prod:
 	$(MAKE) configure STAGE="prod"
 
+configure-monitoring:
+	$(MAKE) configure STAGE="prod" TAGS="monitoring"
+
 configure-apps:
 	$(MAKE) configure TAGS="webserver,apps,env"
 
