@@ -9,6 +9,7 @@
     wiki_port: "{{ base_port + 5 }}"
     nomie_port: "{{ base_port + 6 }}"
     nomie_db_port: "{{ base_port + 7 }}"
+    gitea_port: "{{ base_port + 8 }}"
   vars_files:
     - vars/vars.yml
 
@@ -146,5 +147,24 @@
           COUCH_DB_PORT: '127.0.0.1:{{ nomie_db_port }}'
           COUCH_DB_USER: 'couch-admin'
           COUCH_DB_PASSWORD: '{{ nomie.couch_db_password }}'
+      tags:
+        - apps
+
+    - import_role:
+        name: docker-app
+      vars:
+        username: gitea
+        extra_groups:
+          - docker
+        ssh_keys:
+          - '{{ lookup("file", "files/av_id_rsa.pub") }}'
+        env:
+          PROJECT_NAME: gitea
+          DOCKER_PREFIX: gitea
+          IMAGE_PREFIX: gitea
+          CONTAINER_PREFIX: gitea
+          WEB_SERVER_PORT: '127.0.0.1:{{ gitea_port }}'
+          USER_UID: '{{ uc_result.uid }}'
+          USER_GID: '{{ uc_result.group }}'
       tags:
         - apps

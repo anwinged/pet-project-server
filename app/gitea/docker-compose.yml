@@ -1,0 +1,16 @@
+version: "3"
+
+services:
+
+  server:
+    image: gitea/gitea:1.19.3
+    environment:
+      - "USER_UID=${USER_UID}"
+      - "USER_GID=${USER_GID}"
+    restart: unless-stopped
+    volumes:
+      - ./data:/data
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+      - "${WEB_SERVER_PORT}:3000"
