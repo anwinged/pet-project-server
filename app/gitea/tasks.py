@@ -3,7 +3,7 @@ from invoke import task
 import shlex
 
 APP_NAME = "gitea"
-SSH_HOST = f"{APP_NAME}@51.250.85.23"
+SSH_HOST = f"{APP_NAME}@158.160.115.150"
 DOCKER_REGISTRY = "cr.yandex/crplfk0168i4o8kd7ade"
 
 

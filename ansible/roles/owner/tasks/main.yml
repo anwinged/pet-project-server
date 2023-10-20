@@ -29,8 +29,7 @@
   set_fact:
     env_dict: '{{ owner_env | combine({
       "CURRENT_UID": uc_result.uid | default(owner_name),
-      "CURRENT_GID": uc_result.group | default(owner_group),
-    }) }}'
+      "CURRENT_GID": uc_result.group | default(owner_group) }) }}'
   tags:
     - env
 
