@@ -71,7 +71,7 @@
     - import_role:
         name: netdata
       vars:
-        netdata_version: 'v1.42.4'
+        netdata_version: 'v1.43.1'
         netdata_exposed_port: '{{ netdata_port }}'
       tags:
         - monitoring

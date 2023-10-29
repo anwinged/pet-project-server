@@ -7,8 +7,21 @@ vars:
     sh: id -u
   GROUP_ID:
     sh: id -g
+  ANSIBLE_HOST_KEY_CHECKING: 'True'
 
 tasks:
+  configure-monitoring:
+    cmds:
+      - >- 
+        ansible-playbook
+        --user="major" 
+        --become
+        --tags="monitoring"
+        --inventory="ansible/hosts_prod"
+        --extra-vars="ansible_python_interpreter=/usr/bin/python3"
+        -vvv
+        ansible/configuration.yml
+
   format-py-files:
     cmds:
       - docker run --rm -u {{.USER_ID}}:{{.GROUP_ID}} -v $PWD/app:/app -w /app pyfound/black:latest_release black .
