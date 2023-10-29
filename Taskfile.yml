@@ -1,0 +1,14 @@
+# https://taskfile.dev
+
+version: '3'
+
+vars:
+  USER_ID:
+    sh: id -u
+  GROUP_ID:
+    sh: id -g
+
+tasks:
+  format-py-files:
+    cmds:
+      - docker run --rm -u {{.USER_ID}}:{{.GROUP_ID}} -v $PWD/app:/app -w /app pyfound/black:latest_release black .

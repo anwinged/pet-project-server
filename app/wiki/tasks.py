@@ -17,8 +17,10 @@ def deploy(c):
     print("Ready to setup remote host")
     with Connection(SSH_HOST) as c:
         c.put(
-            "docker-compose.prod.yml",
+            "docker-compose.yml",
             remote=f"/home/{APP_NAME}/docker-compose.yml",
         )
         c.run("cp .env .env.prod")
-        c.run(f"docker-compose --project-name {shlex.quote(APP_NAME)} --env-file=.env.prod up --detach --remove-orphans")
+        c.run(
+            f"docker-compose --project-name {shlex.quote(APP_NAME)} --env-file=.env.prod up --detach --remove-orphans"
+        )

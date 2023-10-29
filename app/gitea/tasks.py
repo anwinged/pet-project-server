@@ -4,7 +4,6 @@ import shlex
 
 APP_NAME = "gitea"
 SSH_HOST = f"{APP_NAME}@158.160.115.150"
-DOCKER_REGISTRY = "cr.yandex/crplfk0168i4o8kd7ade"
 
 
 @task
@@ -17,4 +16,6 @@ def deploy(c):
         )
         c.run("cp .env .env.prod")
         c.run("mkdir -p data")
-        c.run(f"docker-compose --project-name {shlex.quote(APP_NAME)} --env-file=.env.prod up --detach --remove-orphans")
+        c.run(
+            f"docker-compose --project-name {shlex.quote(APP_NAME)} --env-file=.env.prod up --detach --remove-orphans"
+        )

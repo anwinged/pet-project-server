@@ -15,7 +15,7 @@ services:
       - db-data:/var/lib/postgresql/data
 
   wiki:
-    image: ghcr.io/requarks/wiki:2.5.299
+    image: ghcr.io/requarks/wiki:2.5.300
     depends_on:
       - db
     environment:
@@ -27,7 +27,7 @@ services:
       DB_NAME: wiki
     restart: unless-stopped
     ports:
-      - "9080:3000"
+      - "${WEB_SERVER_PORT}:3000"
 
 volumes:
   db-data:
