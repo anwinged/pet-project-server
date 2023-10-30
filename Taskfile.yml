@@ -10,11 +10,25 @@ vars:
   ANSIBLE_HOST_KEY_CHECKING: 'True'
 
 tasks:
+  edit-vars:
+    cmds:
+      - ansible-vault edit ansible/vars/vars.yml
+    env:
+      EDITOR: micro
+
+  list-tags:
+    cmds:
+      - >-
+        ansible-playbook
+        --inventory="ansible/hosts_prod"
+        --list-tags
+        ansible/configuration.yml
+
   configure-monitoring:
     cmds:
       - >- 
         ansible-playbook
-        --user="major" 
+        --user="major"
         --become
         --tags="monitoring"
         --inventory="ansible/hosts_prod"
@@ -24,4 +38,11 @@ tasks:
 
   format-py-files:
     cmds:
-      - docker run --rm -u {{.USER_ID}}:{{.GROUP_ID}} -v $PWD/app:/app -w /app pyfound/black:latest_release black .
+      - >-
+        docker run
+        --rm
+        -u {{.USER_ID}}:{{.GROUP_ID}}
+        -v $PWD/app:/app
+        -w /app
+        pyfound/black:latest_release
+        black .
