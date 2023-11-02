@@ -23,17 +23,35 @@ tasks:
         --list-tags
         ansible/configuration.yml
 
-  configure-monitoring:
+  configure:
+    internal: true
+    vars:
+      TAGS: '{{ (empty .TAGS) | ternary "" (list "--tags=\"" .TAGS "\"" | join "") }}'
     cmds:
       - >- 
         ansible-playbook
         --user="major"
         --become
-        --tags="monitoring"
         --inventory="ansible/hosts_prod"
         --extra-vars="ansible_python_interpreter=/usr/bin/python3"
+        {{.TAGS}}
         -vvv
         ansible/configuration.yml
+
+  configure-monitoring:
+    cmds:
+      - task: configure
+        vars: { TAGS: 'monitoring' }
+
+  configure-apps:
+    cmds:
+      - task: configure
+        vars: { TAGS: 'webserver,apps,env' }
+
+  configure-users:
+    cmds:
+      - task: configure
+        vars: { TAGS: 'apps,env' }
 
   format-py-files:
     cmds:
