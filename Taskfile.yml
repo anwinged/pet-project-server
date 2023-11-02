@@ -7,7 +7,6 @@ vars:
     sh: id -u
   GROUP_ID:
     sh: id -g
-  ANSIBLE_HOST_KEY_CHECKING: 'True'
 
 tasks:
   edit-vars:
