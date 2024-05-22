@@ -7,8 +7,15 @@ vars:
     sh: id -u
   GROUP_ID:
     sh: id -g
+  REMOTE_USER: 'major'
+  REMOTE_HOST:
+    sh: cat ./ansible/hosts_prod | xargs
 
 tasks:
+  ssh:
+    cmds:
+      - ssh {{.REMOTE_USER}}@{{.REMOTE_HOST}}
+
   edit-vars:
     cmds:
       - ansible-vault edit ansible/vars/vars.yml
@@ -30,13 +37,17 @@ tasks:
     cmds:
       - >- 
         ansible-playbook
-        --user="major"
+        --user="{{.REMOTE_USER}}"
         --become
         --inventory="ansible/hosts_prod"
         --extra-vars="ansible_python_interpreter=/usr/bin/python3"
         {{.TAGS}}
         -vvv
         ansible/configuration.yml
+
+  configure-all:
+    cmds:
+      - task: configure
 
   configure-monitoring:
     cmds:

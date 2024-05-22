@@ -45,6 +45,9 @@
 
     - import_role:
         name: geerlingguy.docker
+      vars:
+        docker_users:
+          - major
       tags:
         - docker
 
@@ -71,7 +74,7 @@
     - import_role:
         name: netdata
       vars:
-        netdata_version: 'v1.43.2'
+        netdata_version: 'v1.45.5'
         netdata_exposed_port: '{{ netdata_port }}'
       tags:
         - monitoring

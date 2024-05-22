@@ -8,8 +8,10 @@
 
 ## Установка
 
-    $ cp ansible-vault-password-file.dist ansible-vault-password-file
-    $ ansible-galaxy install --role-file ansible/requirements.yml
+```bash
+$ cp ansible-vault-password-file.dist ansible-vault-password-file
+$ ansible-galaxy install --role-file ansible/requirements.yml
+```
 
 ## Структура
 
@@ -24,8 +26,17 @@
 
 Конфигурация приложений (если нужно добавить новое приложение):
 
-    $ make configure-apps-in-prod
+```bash
+$ task configure-apps
+```
 
 Конфигурация мониторинга (если нужно обновить netdata):
 
-    $ make configure-monitoring
+```bash
+$ task configure-monitoring
+```
+
+## Деплой приложений
+
+- Нужно зайти в директорию приложения. Например, `app/gitea`.
+- Выполнить из директории приложения `invoke deploy`. 

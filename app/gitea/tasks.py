@@ -2,6 +2,8 @@ from fabric import Connection
 from invoke import task
 import shlex
 
+# Run task with `invoke deploy`
+
 APP_NAME = "gitea"
 SSH_HOST = f"{APP_NAME}@158.160.115.150"
 
