@@ -43,7 +43,6 @@ tasks:
         --inventory="{{.HOSTS_FILE}}"
         --extra-vars="ansible_python_interpreter=/usr/bin/python3"
         {{.TAGS}}
-        -vvv
         ansible/configuration.yml
 
   configure-all:

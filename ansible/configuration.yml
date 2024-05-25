@@ -11,6 +11,7 @@
     nomie_db_port: "{{ base_port + 7 }}"
     gitea_port: "{{ base_port + 8 }}"
     keycloak_port: "{{ base_port + 9 }}"
+    outline_port: "{{ base_port + 10 }}"
   vars_files:
     - vars/vars.yml
 
@@ -191,5 +192,54 @@
           KEYCLOAK_ADMIN_PASSWORD: '{{ keycloak.admin_password }}'
           USER_UID: '{{ uc_result.uid }}'
           USER_GID: '{{ uc_result.group }}'
+      tags:
+        - apps
+
+    - import_role:
+        name: docker-app
+      vars:
+        username: outline
+        extra_groups:
+          - docker
+        ssh_keys:
+          - '{{ lookup("file", "files/av_id_rsa.pub") }}'
+        env:
+          PROJECT_NAME: outline
+          DOCKER_PREFIX: outline
+          IMAGE_PREFIX: outline
+          CONTAINER_PREFIX: outline
+          WEB_SERVER_PORT: '127.0.0.1:{{ outline_port }}'
+          USER_UID: '{{ uc_result.uid }}'
+          USER_GID: '{{ uc_result.group }}'
+          # Postgres
+          POSTGRES_USER: '{{ outline.postgres_user }}'
+          POSTGRES_PASSWORD: '{{ outline.postgres_password }}'
+          POSTGRES_DB: 'outline'
+          # See sample https://github.com/outline/outline/blob/main/.env.sample
+          NODE_ENV: 'production'
+          SECRET_KEY: '{{ outline.secret_key }}'
+          UTILS_SECRET: '{{ outline.utils_secret }}'
+          DATABASE_URL: 'postgres://{{ outline.postgres_user }}:{{ outline.postgres_password }}@postgres:5432/outline'
+          PGSSLMODE: 'disable'
+          REDIS_URL: 'redis://redis:6379'
+          URL: 'https://outline.vakhrushev.me'
+          FILE_STORAGE: 's3'
+          AWS_ACCESS_KEY_ID: '{{ outline.s3_access_key }}'
+          AWS_SECRET_ACCESS_KEY: '{{ outline.s3_secret_key }}'
+          AWS_REGION: 'ru-central1'
+          AWS_S3_ACCELERATE_URL: ''
+          AWS_S3_UPLOAD_BUCKET_URL: 'https://storage.yandexcloud.net'
+          AWS_S3_UPLOAD_BUCKET_NAME: 'av-outline-wiki'
+          AWS_S3_FORCE_PATH_STYLE: 'true'
+          AWS_S3_ACL: 'private'
+          OIDC_CLIENT_ID: '{{ outline.oidc_client_id }}'
+          OIDC_CLIENT_SECRET: '{{ outline.oidc_client_secret }}'
+          OIDC_AUTH_URI: 'https://kk.vakhrushev.me/realms/outline/protocol/openid-connect/auth'
+          OIDC_TOKEN_URI: 'https://kk.vakhrushev.me/realms/outline/protocol/openid-connect/token'
+          OIDC_USERINFO_URI: 'https://kk.vakhrushev.me/realms/outline/protocol/openid-connect/userinfo'
+          OIDC_LOGOUT_URI: 'https://kk.vakhrushev.me/realms/outline/protocol/openid-connect/logout'
+          OIDC_USERNAME_CLAIM: 'email'
+          OIDC_DISPLAY_NAME: 'KK'
+
       tags:
         - apps

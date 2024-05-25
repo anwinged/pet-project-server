@@ -22,6 +22,11 @@ def deploy_wiki(context):
     deploy("keycloak", compose_file="docker-compose.prod.yml", dirs=["data"])
 
 
+@task(name="deploy:outline")
+def deploy_wiki(context):
+    deploy("outline", compose_file="docker-compose.prod.yml", dirs=["data/postgres"])
+
+
 def read_host():
     with open(SERVER_HOST_FILE) as f:
         return f.read().strip()

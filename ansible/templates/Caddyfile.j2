@@ -70,3 +70,11 @@ kk.vakhrushev.me {
         to 127.0.0.1:{{ keycloak_port }}
     }
 }
+
+outline.vakhrushev.me {
+    tls anwinged@ya.ru
+
+    reverse_proxy {
+        to 127.0.0.1:{{ outline_port }}
+    }
+}
