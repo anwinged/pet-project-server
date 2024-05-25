@@ -71,7 +71,7 @@ tasks:
         docker run
         --rm
         -u {{.USER_ID}}:{{.GROUP_ID}}
-        -v $PWD/app:/app
+        -v $PWD:/app
         -w /app
         pyfound/black:latest_release
         black .

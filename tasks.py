@@ -3,7 +3,7 @@ import shlex
 import fabric
 from invoke import task
 
-SERVER_HOST_FILE = "../ansible/hosts_prod"
+SERVER_HOST_FILE = "ansible/hosts_prod"
 DOKER_REGISTRY = "cr.yandex/crplfk0168i4o8kd7ade"
 
 
@@ -17,6 +17,11 @@ def deploy_wiki(context):
     deploy("wiki")
 
 
+@task(name="deploy:keycloak")
+def deploy_wiki(context):
+    deploy("keycloak", compose_file="docker-compose.prod.yml", dirs=["data"])
+
+
 def read_host():
     with open(SERVER_HOST_FILE) as f:
         return f.read().strip()
@@ -26,8 +31,8 @@ def ssh_host(app_name):
     return f"{app_name}@{read_host()}"
 
 
-def deploy(app_name: str, dirs=None):
-    docker_compose = os.path.join(app_name, "docker-compose.yml")
+def deploy(app_name: str, compose_file="docker-compose.yml", dirs=None):
+    docker_compose = os.path.join("app", app_name, compose_file)
     assert os.path.exists(docker_compose)
     conn_str = ssh_host(app_name)
     dirs = dirs or []

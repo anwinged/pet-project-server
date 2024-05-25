@@ -10,6 +10,7 @@
     nomie_port: "{{ base_port + 6 }}"
     nomie_db_port: "{{ base_port + 7 }}"
     gitea_port: "{{ base_port + 8 }}"
+    keycloak_port: "{{ base_port + 9 }}"
   vars_files:
     - vars/vars.yml
 
@@ -167,6 +168,27 @@
           IMAGE_PREFIX: gitea
           CONTAINER_PREFIX: gitea
           WEB_SERVER_PORT: '127.0.0.1:{{ gitea_port }}'
+          USER_UID: '{{ uc_result.uid }}'
+          USER_GID: '{{ uc_result.group }}'
+      tags:
+        - apps
+
+    - import_role:
+        name: docker-app
+      vars:
+        username: keycloak
+        extra_groups:
+          - docker
+        ssh_keys:
+          - '{{ lookup("file", "files/av_id_rsa.pub") }}'
+        env:
+          PROJECT_NAME: keycloak
+          DOCKER_PREFIX: keycloak
+          IMAGE_PREFIX: keycloak
+          CONTAINER_PREFIX: keycloak
+          WEB_SERVER_PORT: '127.0.0.1:{{ keycloak_port }}'
+          KEYCLOAK_ADMIN: '{{ keycloak.admin_login }}'
+          KEYCLOAK_ADMIN_PASSWORD: '{{ keycloak.admin_password }}'
           USER_UID: '{{ uc_result.uid }}'
           USER_GID: '{{ uc_result.group }}'
       tags:
