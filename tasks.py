@@ -18,12 +18,12 @@ def deploy_wiki(context):
 
 
 @task(name="deploy:keycloak")
-def deploy_wiki(context):
+def deploy_keykloak(context):
     deploy("keycloak", compose_file="docker-compose.prod.yml", dirs=["data"])
 
 
 @task(name="deploy:outline")
-def deploy_wiki(context):
+def deploy_outline(context):
     deploy("outline", compose_file="docker-compose.prod.yml", dirs=["data/postgres"])
 
 

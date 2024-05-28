@@ -2,6 +2,9 @@
 
 Настройки виртуального сервера для домашних проектов.
 
+> В этом проекте не самые оптимальные решения.
+> Но они помогают мне поддерживать сервер для моих личных проектов уже семь лет. 
+
 ## Требования
 
 - [ansible](https://docs.ansible.com/ansible/latest/getting_started/index.html)
@@ -20,7 +23,7 @@ $ ansible-galaxy install --role-file ansible/requirements.yml
 - Для каждого приложения создается свой пользователь.
 - Для доступа используется ssh-ключ.
 - Докер используется для запуска и изоляции приложений. Для загрузки образов настраивается Yandex Docker Registry.
-- Выход во внешнюю сеть через proxy server Caddy.
+- Выход во внешнюю сеть через proxy server [Caddy](https://caddyserver.com/).
 - Чувствительные данные в `ansible/vars/vars.yaml` зашифрованы с помощью Ansible Vault.
 - Для мониторинга за сервером устанавливается [netdata](https://github.com/netdata/netdata).
 
@@ -40,5 +43,14 @@ $ task configure-monitoring
 
 ## Деплой приложений
 
-- Нужно зайти в директорию `app`.
-- Выполнить из директории приложения: `invoke deploy:wiki` (имя команды зависит от приложения). 
+Доступные для деплоя приложения:
+
+```bash
+invoke --list
+```
+
+Выполнить команду деплоя, например:
+
+```bash
+invoke deploy:gitea
+```
